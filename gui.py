@@ -9,19 +9,42 @@ class Options(Enum):
     FONT = "font"
     BORDER = "border"
 
+class GUI:
+    default_options = {}
+    defaults_created = False
 
-class Label:
-    default_options = {
-        Options.BACKGROUND: (255, 255, 255),
-        Options.FOREGROUND: (0, 0, 0),
-        Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
-    }
+    def create_defaults():
+        GUI.default_options = {
+            Label.__name__: {
+                    Options.BACKGROUND: (255, 255, 255),
+                    Options.FOREGROUND: (0, 0, 0),
+                    Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
+                },
+            Button.__name__: {
+                    Options.BACKGROUND: (255, 255, 255),
+                    Options.FOREGROUND: (0, 0, 0),
+                    Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
+                },
+            Textbox.__name__: {
+                    Options.BACKGROUND: (255, 255, 255),
+                    Options.FOREGROUND: (0, 0, 0),
+                    Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
+                    Options.BORDER: (0, 0, 0)
+                }
+        }
 
+    def get_default_options(self):
+        if not GUI.defaults_created:
+            GUI.defaults_created = True
+            GUI.create_defaults()
+        return GUI.default_options[self.__class__.__name__]
+    
+class Label(GUI):
     def __init__(self, rect, text, options=None):
         self.rect = rect
         self.text = text
         self.rendered, self.rendered_rect = None, None
-        self.options = self.default_options.copy()
+        self.options = self.get_default_options().copy()
         self.options.update(options or {})
 
     def draw(self, screen):
@@ -34,19 +57,12 @@ class Label:
     def update(self, event):
         return
 
-
-class Button:
-    default_options = {
-        Options.BACKGROUND: (255, 255, 255),
-        Options.FOREGROUND: (0, 0, 0),
-        Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
-    }
-
+class Button(GUI):
     def __init__(self, rect, text, options=None):
         self.rect = rect
         self.text = text
         self.rendered, self.rendered_rect = None, None
-        self.options = self.default_options.copy()
+        self.options = self.get_default_options().copy()
         self.options.update(options or {})
 
     def draw(self, screen):
@@ -61,14 +77,7 @@ class Button:
         self.clicked = event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
 
 
-class Textbox:
-    default_options = {
-        Options.BACKGROUND: (255, 255, 255),
-        Options.FOREGROUND: (0, 0, 0),
-        Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
-        Options.BORDER: (0, 0, 0)
-    }
-
+class Textbox(GUI):
     valid_text = (string.ascii_letters + string.digits + string.punctuation + " ")
 
     def __init__(self, rect, text="", options=None):
@@ -81,7 +90,7 @@ class Textbox:
         self.back_timer, self.back_speed = 0, 500
         self.rendered, self.rendered_rect = None, None
 
-        self.options = self.default_options.copy()
+        self.options = self.get_default_options().copy()
         self.options.update(options or {})
 
         self.calculate_rendered_text()
