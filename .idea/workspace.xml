@@ -5,6 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.vs/PenFight/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/PenFight/v16/.suo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.vs/PenFight/v16/Browse.VC.db" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/PenFight/v16/Browse.VC.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/VSWorkspaceState.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.vs/slnx.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/slnx.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -77,37 +78,65 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state width="545" height="466" key="DebuggerActiveHint" timestamp="1589312551800">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="545" height="466" key="DebuggerActiveHint/0.0.1440.860@0.0.1440.860" timestamp="1589312551800" />
     <state x="500" y="184" key="FileChooserDialogImpl" timestamp="1588891550358">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="500" y="184" key="FileChooserDialogImpl/0.0.1440.860@0.0.1440.860" timestamp="1588891550358" />
-    <state width="1362" height="156" key="GridCell.Tab.0.bottom" timestamp="1589286876973">
+    <state width="1418" height="270" key="GridCell.Tab.0.bottom" timestamp="1589315989402">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1362" height="156" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1589286876973" />
-    <state width="1362" height="156" key="GridCell.Tab.0.center" timestamp="1589286876973">
+    <state width="1418" height="270" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
+    <state width="1418" height="270" key="GridCell.Tab.0.center" timestamp="1589315989402">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1362" height="156" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1589286876973" />
-    <state width="1362" height="156" key="GridCell.Tab.0.left" timestamp="1589286876973">
+    <state width="1418" height="270" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
+    <state width="1418" height="270" key="GridCell.Tab.0.left" timestamp="1589315989402">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1362" height="156" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1589286876973" />
-    <state width="1362" height="156" key="GridCell.Tab.0.right" timestamp="1589286876973">
+    <state width="1418" height="270" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
+    <state width="1418" height="270" key="GridCell.Tab.0.right" timestamp="1589315989402">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state width="1362" height="156" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1589286876973" />
+    <state width="1418" height="270" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
+    <state width="1418" height="270" key="GridCell.Tab.1.bottom" timestamp="1589315989402">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1418" height="270" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
+    <state width="1418" height="270" key="GridCell.Tab.1.center" timestamp="1589315989402">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1418" height="270" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
+    <state width="1418" height="270" key="GridCell.Tab.1.left" timestamp="1589315989402">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1418" height="270" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
+    <state width="1418" height="270" key="GridCell.Tab.1.right" timestamp="1589315989402">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1418" height="270" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1589315989402" />
     <state x="221" y="61" key="SettingsEditor" timestamp="1589210878246">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="221" y="61" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1589210878246" />
-    <state x="421" y="252" key="com.intellij.ide.util.TipDialog" timestamp="1589286506402">
+    <state width="498" height="446" key="SwitcherDM" timestamp="1589311110328">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="421" y="252" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1589286506402" />
-    <state x="383" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1588890918115">
+    <state width="498" height="446" key="SwitcherDM/0.0.1440.860@0.0.1440.860" timestamp="1589311110328" />
+    <state x="421" y="252" key="com.intellij.ide.util.TipDialog" timestamp="1589295572571">
       <screen x="0" y="0" width="1440" height="860" />
     </state>
-    <state x="383" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1588890918115" />
+    <state x="421" y="252" key="com.intellij.ide.util.TipDialog/0.0.1440.860@0.0.1440.860" timestamp="1589295572571" />
+    <state x="461" y="72" key="refactoring.ChangeSignatureDialog" timestamp="1589312971639">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="461" y="72" key="refactoring.ChangeSignatureDialog/0.0.1440.860@0.0.1440.860" timestamp="1589312971639" />
+    <state x="383" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1589314400413">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="383" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1589314400413" />
   </component>
 </project>

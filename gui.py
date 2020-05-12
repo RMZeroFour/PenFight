@@ -8,6 +8,7 @@ class Options(Enum):
     FOREGROUND = "foreground"
     FONT = "font"
     BORDER = "border"
+    BORDER_WIDTH = "border_width"
     HOVERED_BACKGROUND = "hovered_background"
     CLICKED_BACKGROUND = "clicked_background"
 
@@ -16,19 +17,22 @@ class GUI:
     default_options = {}
     defaults_created = False
 
+    @staticmethod
     def create_defaults():
         GUI.default_options = {
             Label.__name__: {
                 Options.BACKGROUND: (255, 255, 255),
                 Options.FOREGROUND: (0, 0, 0),
                 Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
-                Options.BORDER: (0, 0, 0)
+                Options.BORDER: (0, 0, 0),
+                Options.BORDER_WIDTH: 2
             },
             Button.__name__: {
                 Options.BACKGROUND: (255, 255, 255),
                 Options.FOREGROUND: (0, 0, 0),
                 Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
                 Options.BORDER: (0, 0, 0),
+                Options.BORDER_WIDTH: 2,
                 Options.HOVERED_BACKGROUND: (200, 200, 200),
                 Options.CLICKED_BACKGROUND: (100, 100, 100),
             },
@@ -37,6 +41,7 @@ class GUI:
                 Options.FOREGROUND: (0, 0, 0),
                 Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
                 Options.BORDER: (0, 0, 0),
+                Options.BORDER_WIDTH: 2,
                 Options.HOVERED_BACKGROUND: (200, 200, 200),
                 Options.CLICKED_BACKGROUND: (100, 100, 100),
             }
@@ -59,7 +64,11 @@ class Label(GUI):
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.options[Options.BACKGROUND], self.rect)
-        pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(2, 2), 2)
+
+        border_width = self.options[Options.BORDER_WIDTH]
+        if border_width > 0:
+            pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(border_width, border_width), border_width)
+
         if self.rendered is None:
             self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
             self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
@@ -68,6 +77,10 @@ class Label(GUI):
     def update(self, event):
         return
 
+    def set_text(self, text):
+        self.text = text
+        self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
+        self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
 
 class Button(GUI):
     def __init__(self, rect, text, options=None):
@@ -82,7 +95,11 @@ class Button(GUI):
         bg_color = self.options[(Options.CLICKED_BACKGROUND if self.clicked else (
             Options.HOVERED_BACKGROUND if self.hovered else Options.BACKGROUND))]
         pygame.draw.rect(screen, bg_color, self.rect)
-        pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(2, 2), 2)
+
+        border_width = self.options[Options.BORDER_WIDTH]
+        if border_width > 0:
+            pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(border_width, border_width), border_width)
+
         if self.rendered is None:
             self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
             self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
@@ -91,7 +108,7 @@ class Button(GUI):
     def update(self, event):
         mouse_pos = pygame.mouse.get_pos()
         self.hovered = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
-        self.clicked = (event.type == pygame.MOUSEBUTTONDOWN) and (self.hovered)
+        self.clicked = (event.type == pygame.MOUSEBUTTONDOWN) and self.hovered
 
 
 class Textbox(GUI):
@@ -113,7 +130,11 @@ class Textbox(GUI):
     def draw(self, screen):
 
         pygame.draw.rect(screen, self.options[Options.BACKGROUND], self.rect)
-        pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(2, 2), 2)
+
+        border_width = self.options[Options.BORDER_WIDTH]
+        if border_width > 0:
+            pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(border_width, border_width), border_width)
+
         if self.rendered is not None:
             screen.blit(self.rendered, self.rendered_rect, self.render_area)
 
