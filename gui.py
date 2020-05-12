@@ -8,6 +8,9 @@ class Options(Enum):
     FOREGROUND = "foreground"
     FONT = "font"
     BORDER = "border"
+    HOVERED_BACKGROUND = "hovered_background"
+    CLICKED_BACKGROUND = "clicked_background"
+
 
 class GUI:
     default_options = {}
@@ -16,21 +19,27 @@ class GUI:
     def create_defaults():
         GUI.default_options = {
             Label.__name__: {
-                    Options.BACKGROUND: (255, 255, 255),
-                    Options.FOREGROUND: (0, 0, 0),
-                    Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
-                },
+                Options.BACKGROUND: (255, 255, 255),
+                Options.FOREGROUND: (0, 0, 0),
+                Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
+                Options.BORDER: (0, 0, 0)
+            },
             Button.__name__: {
-                    Options.BACKGROUND: (255, 255, 255),
-                    Options.FOREGROUND: (0, 0, 0),
-                    Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
-                },
+                Options.BACKGROUND: (255, 255, 255),
+                Options.FOREGROUND: (0, 0, 0),
+                Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
+                Options.BORDER: (0, 0, 0),
+                Options.HOVERED_BACKGROUND: (200, 200, 200),
+                Options.CLICKED_BACKGROUND: (100, 100, 100),
+            },
             Textbox.__name__: {
-                    Options.BACKGROUND: (255, 255, 255),
-                    Options.FOREGROUND: (0, 0, 0),
-                    Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
-                    Options.BORDER: (0, 0, 0)
-                }
+                Options.BACKGROUND: (255, 255, 255),
+                Options.FOREGROUND: (0, 0, 0),
+                Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
+                Options.BORDER: (0, 0, 0),
+                Options.HOVERED_BACKGROUND: (200, 200, 200),
+                Options.CLICKED_BACKGROUND: (100, 100, 100),
+            }
         }
 
     def get_default_options(self):
@@ -38,7 +47,8 @@ class GUI:
             GUI.defaults_created = True
             GUI.create_defaults()
         return GUI.default_options[self.__class__.__name__]
-    
+
+
 class Label(GUI):
     def __init__(self, rect, text, options=None):
         self.rect = rect
@@ -49,6 +59,7 @@ class Label(GUI):
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.options[Options.BACKGROUND], self.rect)
+        pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(2, 2), 2)
         if self.rendered is None:
             self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
             self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
@@ -57,16 +68,21 @@ class Label(GUI):
     def update(self, event):
         return
 
+
 class Button(GUI):
     def __init__(self, rect, text, options=None):
         self.rect = rect
         self.text = text
+        self.clicked, self.hovered = False, False
         self.rendered, self.rendered_rect = None, None
         self.options = self.get_default_options().copy()
         self.options.update(options or {})
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.options[Options.BACKGROUND], self.rect)
+        bg_color = self.options[(Options.CLICKED_BACKGROUND if self.clicked else (
+            Options.HOVERED_BACKGROUND if self.hovered else Options.BACKGROUND))]
+        pygame.draw.rect(screen, bg_color, self.rect)
+        pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(2, 2), 2)
         if self.rendered is None:
             self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
             self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
@@ -74,7 +90,8 @@ class Button(GUI):
 
     def update(self, event):
         mouse_pos = pygame.mouse.get_pos()
-        self.clicked = event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
+        self.hovered = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
+        self.clicked = (event.type == pygame.MOUSEBUTTONDOWN) and (self.hovered)
 
 
 class Textbox(GUI):
@@ -85,10 +102,8 @@ class Textbox(GUI):
         self.buffer = ([] if text is None else list(text))
         self.focused = False
         self.current_text = ""
-        self.blink = True
-        self.blink_timer, self.blink_speed = 0, 500
-        self.back_timer, self.back_speed = 0, 500
-        self.rendered, self.rendered_rect = None, None
+        self.blink, self.blink_timer, self.blink_speed = True, 0, 500
+        self.rendered, self.rendered_rect, self.render_area = None, None, None
 
         self.options = self.get_default_options().copy()
         self.options.update(options or {})
@@ -98,9 +113,9 @@ class Textbox(GUI):
     def draw(self, screen):
 
         pygame.draw.rect(screen, self.options[Options.BACKGROUND], self.rect)
-        pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.move(-2, -2).inflate(4, 4), 2)
+        pygame.draw.rect(screen, self.options[Options.BORDER], self.rect.inflate(2, 2), 2)
         if self.rendered is not None:
-            screen.blit(self.rendered, self.rendered_rect)
+            screen.blit(self.rendered, self.rendered_rect, self.render_area)
 
         ticks = pygame.time.get_ticks()
         if ticks - self.blink_timer > self.blink_speed:
@@ -108,8 +123,8 @@ class Textbox(GUI):
             self.blink_timer = ticks
 
         if self.blink and self.focused and self.rendered:
-            cursor_start = (self.rendered_rect.right, self.rendered_rect.top)
-            cursor_end = (self.rendered_rect.right, self.rendered_rect.bottom)
+            cursor_start = (self.rendered_rect.left + self.render_area.width, self.rendered_rect.top)
+            cursor_end = (self.rendered_rect.left + self.render_area.width, self.rendered_rect.bottom)
             pygame.draw.line(screen, (0, 0, 0), cursor_start, cursor_end, 2)
 
     def update(self, event):
@@ -117,16 +132,27 @@ class Textbox(GUI):
         if self.focused and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE and len(self.buffer) > 0:
                 self.buffer.pop()
+
             elif event.unicode in self.valid_text:
                 self.buffer.append(event.unicode)
+
             self.calculate_rendered_text()
+
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             self.focused = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
 
     def calculate_rendered_text(self):
         new_text = "".join(self.buffer)
+
         if new_text != self.current_text:
+
             self.current_text = new_text
             self.rendered = self.options[Options.FONT].render(self.current_text, True, self.options[Options.FOREGROUND])
-            self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
+            self.rendered_rect = self.rendered.get_rect(x=self.rect.x + 5, centery=self.rect.centery)
+
+            if self.rendered_rect.width > self.rect.width - 6:
+                offset = self.rendered_rect.width - (self.rect.width - 6)
+                self.render_area = pygame.Rect(offset, 0, self.rect.width - 6, self.rendered_rect.height)
+            else:
+                self.render_area = self.rendered.get_rect()

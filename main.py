@@ -13,6 +13,9 @@ WINDOW_WIDTH, WINDOW_HEIGHT = 800, 600
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Pygame Test")
 
+# Set a delay and repeat timer for keyboard input
+pygame.key.set_repeat(300, 100)
+
 # Create all the scenes of the game
 scenes = {
     0: scene.TestScene1(),
