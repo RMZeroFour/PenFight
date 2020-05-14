@@ -7,7 +7,6 @@ SCENE_TRANSITION = pygame.USEREVENT + 1
 
 # Base class for scenes
 class Scene:
-
     # First time loading the scene
     already_loaded = False
 

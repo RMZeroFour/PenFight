@@ -1,5 +1,7 @@
 import pygame
 
+
+# Class used for resource management
 class Resources:
     # Dictionary to store all resources
     storage = {}
@@ -13,6 +15,11 @@ class Resources:
     @staticmethod
     def get(key):
         return Resources.storage[key]
+
+    # Check if a key exists
+    @staticmethod
+    def has(key):
+        return key in Resources.storage
 
     # Used to load a sprite asset from file
     @staticmethod

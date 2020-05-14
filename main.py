@@ -2,8 +2,11 @@
 import pygame
 pygame.init()
 
+# Import the accounts i/o
+from account import Account
+
 # Import the scenes for the game
-import scene
+from scene import SCENE_TRANSITION
 import all_scenes
 
 # Set up the game window
@@ -28,6 +31,7 @@ scenes = {
     9: all_scenes.GameOverScene(),
     10: all_scenes.StatsScene(),
     11: all_scenes.AboutScene(),
+    12: all_scenes.SettingsScene(),
 }
 
 # Select the first scene as current and load it
@@ -45,19 +49,22 @@ while not finished:
             finished = True
 
         # Check for scene change
-        elif event.type == scene.SCENE_TRANSITION:
+        elif event.type == SCENE_TRANSITION:
             current_scene = scenes[event.next_scene_id]
             current_scene.start(WINDOW_WIDTH, WINDOW_HEIGHT)
 
         # Update the current scene
-        else: 
-            current_scene.update(event) 
-    
-    # Draw the current scene
+        else:
+            current_scene.update(event)
+
+            # Draw the current scene
     current_scene.draw(screen)
 
     # Display the graphics
     pygame.display.flip()
+
+# Save the account details, just in case
+Account.save_to_file(Account.current_account)
 
 # Done! Time to quit
 pygame.quit()

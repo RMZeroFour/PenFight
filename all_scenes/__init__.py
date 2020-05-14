@@ -12,6 +12,7 @@ from all_scenes.pause_scene import PauseScene
 from all_scenes.gameover_scene import GameOverScene
 from all_scenes.stats_scene import StatsScene
 from all_scenes.about_scene import AboutScene
+from all_scenes.settings_scene import SettingsScene
 
 # from all_scenes.shop_scene import NetConnectScene             (This will be done later)
 # from all_scenes.netconnect_scene import NetConnectScene       (This will be done later)
