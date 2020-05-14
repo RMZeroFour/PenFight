@@ -11,6 +11,9 @@ class LoadingScene(Scene):
     loading_text = None
 
     def start(self, width, height):
+        if self.already_loaded:
+            return
+
         # Spawn a new thread to load all resources
         Thread(target=self.load_assets).start()
 
@@ -21,6 +24,8 @@ class LoadingScene(Scene):
             Options.FOREGROUND: (244, 180, 26),
             Options.BORDER_WIDTH: 0,
         })
+
+        self.already_loaded = True
 
     def load_assets(self):
         # ...ASSET LOADING CODE HERE...
@@ -38,6 +43,6 @@ class LoadingScene(Scene):
         if not self.loaded:
             self.loading_text.draw(screen)
 
-        # If loading has finished, then go to main menu
+        # If loading has finished, then go to account loading
         else:
             Scene.change_scene(1)

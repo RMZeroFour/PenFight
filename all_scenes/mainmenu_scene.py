@@ -9,10 +9,14 @@ class MainMenuScene(Scene):
     single_player_btn = None
     multi_player_btn = None
     about_btn = None
+    back_btn = None
 
     # Create the various gui elements
     def start(self, width, height):
-        self.title = Label(pygame.rect.Rect(width / 2 - 200, height / 7, 400, 60), "Python PenFight!", options={
+        if self.already_loaded:
+            return
+
+        self.title = Label(pygame.rect.Rect(width / 2 - 200, height / 7, 400, 60), "Python Penfight!", options={
             Options.BACKGROUND: (20, 61, 89),
             Options.FOREGROUND: (244, 180, 26),
             Options.BORDER_WIDTH: 4,
@@ -32,14 +36,24 @@ class MainMenuScene(Scene):
         self.multi_player_btn = Button(btn_rect.copy().move(0, 100), "Multi Player", btn_options)
         self.about_btn = Button(btn_rect.copy().move(0, 200), "About", btn_options)
 
+        self.back_btn = Button(pygame.rect.Rect(10, 10, 60, 40), "Back", {
+            Options.BORDER_WIDTH: 0,
+            Options.BACKGROUND: (20, 61, 89),
+            Options.FOREGROUND: (244, 180, 26),
+            Options.HOVERED_BACKGROUND: (10, 30, 45),
+            Options.FONT: pygame.font.SysFont("Comic Sans MS", 15)
+        })
+
+        self.already_loaded = True
+
     # Check the buttons and switch to corresponding scenes when clicked
     def update(self, event):
-        for btn in (self.single_player_btn, self.multi_player_btn, self.about_btn):
+        for btn in (self.single_player_btn, self.multi_player_btn, self.about_btn, self.back_btn):
             btn.update(event)
 
         # Goto single player enemy select scene
         if self.single_player_btn.clicked:
-            Scene.change_scene(2)
+            Scene.change_scene(5)
 
         # Goto multi player network connection scene
         elif self.multi_player_btn.clicked:
@@ -47,9 +61,13 @@ class MainMenuScene(Scene):
             # Scene.change_scene(...)
             # Will add this later
 
-        # Goto about the game scene
+        # Goto about the about scene
         elif self.about_btn.clicked:
-            Scene.change_scene(7)
+            Scene.change_scene(11)
+
+        # Go back to account select scene
+        elif self.back_btn.clicked:
+            Scene.change_scene(1)
 
     # Clear the screen and draw the gui
     def draw(self, screen):
@@ -57,5 +75,5 @@ class MainMenuScene(Scene):
 
         self.title.draw(screen)
 
-        for btn in (self.single_player_btn, self.multi_player_btn, self.about_btn):
+        for btn in (self.single_player_btn, self.multi_player_btn, self.about_btn, self.back_btn):
             btn.draw(screen)

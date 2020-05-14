@@ -9,7 +9,7 @@ import all_scenes
 # Set up the game window
 WINDOW_WIDTH, WINDOW_HEIGHT = 800, 600
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption("Pygame Test")
+pygame.display.set_caption("Python Penfight!")
 
 # Set a delay and repeat timer for keyboard input
 pygame.key.set_repeat(300, 100)
@@ -17,13 +17,17 @@ pygame.key.set_repeat(300, 100)
 # Create all the scenes of the game
 scenes = {
     0: all_scenes.LoadingScene(),
-    1: all_scenes.MainMenuScene(),
-    2: all_scenes.EnemySelectScene(),
-    3: all_scenes.PenSelectScene(),
-    4: all_scenes.GameScene(),
-    5: all_scenes.PauseScene(),
-    6: all_scenes.GameOverScene(),
-    7: all_scenes.AboutScene(),
+    1: all_scenes.SelectAccountScene(),
+    2: all_scenes.CreateAccountScene(),
+    3: all_scenes.DeleteAccountScene(),
+    4: all_scenes.MainMenuScene(),
+    5: all_scenes.EnemySelectScene(),
+    6: all_scenes.PenSelectScene(),
+    7: all_scenes.GameScene(),
+    8: all_scenes.PauseScene(),
+    9: all_scenes.GameOverScene(),
+    10: all_scenes.StatsScene(),
+    11: all_scenes.AboutScene(),
 }
 
 # Select the first scene as current and load it
@@ -42,8 +46,7 @@ while not finished:
 
         # Check for scene change
         elif event.type == scene.SCENE_TRANSITION:
-            next_scene_id = event.next_scene_id
-            current_scene = scenes[next_scene_id]
+            current_scene = scenes[event.next_scene_id]
             current_scene.start(WINDOW_WIDTH, WINDOW_HEIGHT)
 
         # Update the current scene

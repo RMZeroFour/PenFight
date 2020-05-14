@@ -87,6 +87,7 @@ class Button(GUI):
         self.rect = rect
         self.text = text
         self.clicked, self.hovered = False, False
+        self.enabled = True
         self.rendered, self.rendered_rect = None, None
         self.options = self.get_default_options().copy()
         self.options.update(options or {})
@@ -103,13 +104,26 @@ class Button(GUI):
         if self.rendered is None:
             self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
             self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
+
+        if not self.enabled:
+            pygame.draw.rect(screen, (100, 100, 100, 200), self.rect)
+
         screen.blit(self.rendered, self.rendered_rect)
 
     def update(self, event):
-        mouse_pos = pygame.mouse.get_pos()
-        self.hovered = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
-        self.clicked = (event.type == pygame.MOUSEBUTTONDOWN) and self.hovered
+        if self.enabled:
+            mouse_pos = pygame.mouse.get_pos()
+            self.hovered = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
+            self.clicked = (event.type == pygame.MOUSEBUTTONDOWN) and self.hovered
 
+    def set_enabled(self, enabled):
+        self.enabled = enabled
+        if not self.enabled:
+            self.hovered, self.clicked = False, False
+
+    def recreate(self):
+        self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
+        self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
 
 class Textbox(GUI):
     valid_text = (string.ascii_letters + string.digits + string.punctuation + " ")
@@ -118,7 +132,7 @@ class Textbox(GUI):
         self.rect = rect
         self.buffer = ([] if text is None else list(text))
         self.focused = False
-        self.current_text = ""
+        self.text = None
         self.blink, self.blink_timer, self.blink_speed = True, 0, 500
         self.rendered, self.rendered_rect, self.render_area = None, None, None
 
@@ -166,10 +180,10 @@ class Textbox(GUI):
     def calculate_rendered_text(self):
         new_text = "".join(self.buffer)
 
-        if new_text != self.current_text:
+        if new_text != self.text:
 
-            self.current_text = new_text
-            self.rendered = self.options[Options.FONT].render(self.current_text, True, self.options[Options.FOREGROUND])
+            self.text = new_text
+            self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
             self.rendered_rect = self.rendered.get_rect(x=self.rect.x + 5, centery=self.rect.centery)
 
             if self.rendered_rect.width > self.rect.width - 6:

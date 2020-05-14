@@ -7,6 +7,10 @@ SCENE_TRANSITION = pygame.USEREVENT + 1
 
 # Base class for scenes
 class Scene:
+
+    # First time loading the scene
+    already_loaded = False
+
     # Called once on transition
     def start(self, width, height):
         return
@@ -23,5 +27,5 @@ class Scene:
     # I Should really have created a Finite State Machine, but this is fine for a small game like this :-P
     @staticmethod
     def change_scene(scene_id):
-        event = pygame.event.Event(SCENE_TRANSITION, { "next_scene_id": scene_id })
+        event = pygame.event.Event(SCENE_TRANSITION, {"next_scene_id": scene_id})
         pygame.event.post(event)
