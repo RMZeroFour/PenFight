@@ -1,14 +1,14 @@
 import pygame
 from scene import (Scene, SCENE_TRANSITION)
 from gui import (Label, Button, Options)
-
+from random import random
+from settings import Settings
 
 class AboutScene(Scene):
     back_btn = None
 
     def start(self, width, height):
         if not self.already_loaded:
-
             self.back_btn = Button(pygame.rect.Rect(10, 10, 60, 40), "Back", {
                 Options.BORDER_WIDTH: 0,
                 Options.BACKGROUND: (20, 61, 89),

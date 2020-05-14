@@ -12,4 +12,3 @@ class StatsScene(Scene):
 
     def draw(self, screen):
         screen.fill((82, 173, 200))
-

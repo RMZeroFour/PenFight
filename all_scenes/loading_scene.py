@@ -1,14 +1,17 @@
 import pygame
 from scene import Scene
 from resources import Resources
-from gui import (Label, Options)
+from gui import (Label, Image, Options)
 from threading import Thread
-from time import sleep
 
 
 class LoadingScene(Scene):
     loaded = False
     loading_text = None
+
+    circle_image = None
+    loading_circle = None
+    circle_angle = 0
 
     def start(self, width, height):
         if self.already_loaded:
@@ -25,16 +28,28 @@ class LoadingScene(Scene):
             Options.BORDER_WIDTH: 0,
         })
 
+        # Also create an image to display a rotate animation
+        image_rect = pygame.rect.Rect(width / 2 - 50, height / 2 + 50, 75, 75)
+        self.loading_circle = Image(image_rect, None, {
+            Options.BACKGROUND: (82, 173, 200)
+        })
+
         self.already_loaded = True
 
     def load_assets(self):
-        # ...ASSET LOADING CODE HERE...
-        sleep(2) # Simulate loading assets with a thread sleep
+        # Load the circle loading animation
+        Resources.add("loading", pygame.image.load("assets/loading.png"))
+        self.circle_image = Resources.get("loading")
+
+        # Load the settings gear icon
+        Resources.add("gear", pygame.image.load("assets/gear.png"))
+
         self.loaded = True
 
     def update(self, event):
-        # Nothing to update here
-        return
+        # If the circle loading image has been loaded then use it for the animation
+        if (self.loading_circle.image is None) and (self.circle_image is not None):
+            self.loading_circle.image = self.circle_image
 
     def draw(self, screen):
         screen.fill((82, 173, 200))
@@ -42,6 +57,12 @@ class LoadingScene(Scene):
         # Wait if the loading has not finished
         if not self.loaded:
             self.loading_text.draw(screen)
+
+            # Rotate the image to show a loading animation
+            self.loading_circle.draw(screen)
+            if self.loading_circle.image is not None:
+                self.loading_circle.image = pygame.transform.rotate(self.circle_image, self.circle_angle)
+                self.circle_angle = -(pygame.time.get_ticks() % 360)
 
         # If loading has finished, then go to account loading
         else:

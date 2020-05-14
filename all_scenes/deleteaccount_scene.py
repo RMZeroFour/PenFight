@@ -45,6 +45,7 @@ class DeleteAccountScene(Scene):
 
         if self.yes_btn.clicked:
             Account.delete_account(Account.account_to_delete)
+            Account.account_to_delete = None
             Scene.change_scene(1)
 
         if self.no_btn.clicked:
