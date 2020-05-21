@@ -8,8 +8,7 @@ from account import Account
 class MainMenuScene(Scene):
     title = None
 
-    single_player_btn = None
-    multi_player_btn = None
+    play_btn = None
     about_btn = None
     settings_btn = None
     back_btn = None
@@ -35,9 +34,8 @@ class MainMenuScene(Scene):
             Options.FONT: pygame.font.SysFont("Comic Sans MS", 25),
         }
 
-        self.single_player_btn = Button(btn_rect, "Single Player", btn_options)
-        self.multi_player_btn = Button(btn_rect.copy().move(0, 100), "Multi Player", btn_options)
-        self.about_btn = Button(btn_rect.copy().move(0, 200), "About", btn_options)
+        self.play_btn = Button(btn_rect, "Play", btn_options)
+        self.about_btn = Button(btn_rect.copy().move(0, 100), "About", btn_options)
 
         settings_gear_image = Resources.get("gear")
         settings_gear_rect = pygame.rect.Rect(width - 100, height - 100, 75, 75)
@@ -57,18 +55,12 @@ class MainMenuScene(Scene):
 
     # Check the buttons and switch to corresponding scenes when clicked
     def update(self, event):
-        for btn in (self.single_player_btn, self.multi_player_btn, self.about_btn, self.back_btn, self.settings_btn):
+        for btn in (self.play_btn, self.about_btn, self.back_btn, self.settings_btn):
             btn.update(event)
 
         # Goto single player enemy select scene
-        if self.single_player_btn.clicked:
+        if self.play_btn.clicked:
             Scene.change_scene(5)
-
-        # Goto multi player network connection scene
-        elif self.multi_player_btn.clicked:
-            pass
-            # Scene.change_scene(...)
-            # Will add this later
 
         # Goto about the about scene
         elif self.about_btn.clicked:
@@ -88,5 +80,5 @@ class MainMenuScene(Scene):
 
         self.title.draw(screen)
 
-        for btn in (self.single_player_btn, self.multi_player_btn, self.about_btn, self.back_btn, self.settings_btn):
+        for btn in (self.play_btn, self.about_btn, self.back_btn, self.settings_btn):
             btn.draw(screen)

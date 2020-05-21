@@ -66,7 +66,6 @@ class SettingsScene(Scene):
 
     def draw(self, screen):
         screen.fill((82, 173, 200))
-        self.header.draw(screen)
 
-        for elt in (self.volume_label, self.volume_box, self.back_btn):
+        for elt in (self.header, self.volume_label, self.volume_box, self.back_btn):
             elt.draw(screen)
