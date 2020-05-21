@@ -64,7 +64,8 @@ while not finished:
     pygame.display.flip()
 
 # Save the account details, just in case
-Account.save_to_file(Account.current_account)
+if Account.current_account is not None:
+    Account.save_to_file(Account.current_account)
 
 # Done! Time to quit
 pygame.quit()
