@@ -4,7 +4,7 @@ from gui import (Label, Button, Options)
 
 
 class StatsScene(Scene):
-    def start(self, width, height):
+    def start(self, screen):
         return
 
     def update(self, event):

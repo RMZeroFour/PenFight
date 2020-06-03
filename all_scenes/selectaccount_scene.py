@@ -19,8 +19,12 @@ class SelectAccountScene(Scene):
     first_offset = None
 
     # Create the various gui elements
-    def start(self, width, height):
+    def start(self, screen):
+        width = screen.get_width()
+        height = screen.get_height()
+
         if self.already_loaded:
+
             btn_options = {
                 Options.BORDER_WIDTH: 0,
                 Options.BACKGROUND: (20, 61, 89),
@@ -115,18 +119,18 @@ class SelectAccountScene(Scene):
             btn.update(event)
             if btn.clicked:
                 Account.current_account = Account.load_from_file(btn.text)
-                Scene.change_scene(4)
+                Scene.push_scene(4)
 
             self.delete_btns[btn].update(event)
             if self.delete_btns[btn].clicked:
                 Account.account_to_delete = Account.load_from_file(btn.text)
-                Scene.change_scene(3)
+                Scene.push_scene(3)
 
         for btn in (self.create_btn, self.up_btn, self.down_btn):
             btn.update(event)
 
         if self.create_btn.clicked:
-            Scene.change_scene(2)
+            Scene.push_scene(2)
 
         if self.up_btn.clicked:
             self.btn_index -= 1

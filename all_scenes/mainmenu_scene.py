@@ -14,9 +14,12 @@ class MainMenuScene(Scene):
     back_btn = None
 
     # Create the various gui elements
-    def start(self, width, height):
+    def start(self, screen):
         if self.already_loaded:
             return
+
+        width = screen.get_width()
+        height = screen.get_height()
 
         self.title = Label(pygame.rect.Rect(width / 2 - 200, height / 7, 400, 60), "Python Penfight!", options={
             Options.BACKGROUND: (20, 61, 89),
@@ -60,19 +63,19 @@ class MainMenuScene(Scene):
 
         # Goto single player enemy select scene
         if self.play_btn.clicked:
-            Scene.change_scene(5)
+            Scene.push_scene(5)
 
         # Goto about the about scene
         elif self.about_btn.clicked:
-            Scene.change_scene(11)
+            Scene.push_scene(11)
 
         elif self.settings_btn.clicked:
-            Scene.change_scene(12)
+            Scene.push_scene(12)
 
         # Go back to account select scene
         elif self.back_btn.clicked:
             Account.save_to_file(Account.current_account)
-            Scene.change_scene(1)
+            Scene.pop_scene()
 
     # Clear the screen and draw the gui
     def draw(self, screen):
