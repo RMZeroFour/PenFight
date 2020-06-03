@@ -12,8 +12,11 @@ class SettingsScene(Scene):
     volume_label, volume_box = None, None
     volume_value = 0
 
-    def start(self, width, height):
+    def start(self, screen):
         if not self.already_loaded:
+            width = screen.get_width()
+            height = screen.get_height()
+
             self.header = Label(pygame.rect.Rect(width / 2 - 50, 10, 150, 50), "Settings", options={
                 Options.BACKGROUND: (20, 61, 89),
                 Options.FOREGROUND: (244, 180, 26),
@@ -46,13 +49,13 @@ class SettingsScene(Scene):
 
         if self.back_btn.clicked:
             self.apply_changes()
-            Scene.change_scene(4)
+            Scene.pop_scene()
 
     def apply_changes(self):
         # Volume
         valid = SettingsScene.is_valid_number(self.volume_box.text)
-        new_volume = int(self.volume_box.text) if valid else 0
-        self.volume_value = new_volume if (new_volume >= 0) and (new_volume <= 100) else 0
+        new_volume = int(self.volume_box.text) if valid else 100
+        self.volume_value = new_volume if (new_volume >= 0) and (new_volume <= 100) else 100
         self.volume_box.set_text(str(self.volume_value))
         Account.current_account.settings.add(Settings.VOLUME, self.volume_value)
 

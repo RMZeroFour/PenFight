@@ -6,7 +6,7 @@ pygame.init()
 from account import Account
 
 # Import the scenes for the game
-from scene import SCENE_TRANSITION
+from scene import (Scene, SCENE_TRANSITION)
 import all_scenes
 
 # Set up the game window
@@ -34,9 +34,12 @@ scenes = {
     12: all_scenes.SettingsScene(),
 }
 
+# Push the first scene onto the scene stack
+Scene.scene_stack.append(0)
+
 # Select the first scene as current and load it
-current_scene = scenes[0]
-current_scene.start(WINDOW_WIDTH, WINDOW_HEIGHT)
+current_scene = scenes[Scene.scene_stack[-1]]
+current_scene.start(screen)
 
 # Run until the window closes
 finished = False
@@ -48,16 +51,16 @@ while not finished:
         if event.type == pygame.QUIT:
             finished = True
 
-        # Check for scene change
+        # Check for scene transition
         elif event.type == SCENE_TRANSITION:
-            current_scene = scenes[event.next_scene_id]
-            current_scene.start(WINDOW_WIDTH, WINDOW_HEIGHT)
+            current_scene = scenes[Scene.scene_stack[-1]]
+            current_scene.start(screen)
 
         # Update the current scene
         else:
             current_scene.update(event)
 
-            # Draw the current scene
+    # Draw the current scene
     current_scene.draw(screen)
 
     # Display the graphics

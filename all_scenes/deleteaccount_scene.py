@@ -10,7 +10,10 @@ class DeleteAccountScene(Scene):
     no_btn = None
 
     # Create the various gui elements
-    def start(self, width, height):
+    def start(self, screen):
+        width = screen.get_width()
+        height = screen.get_height()
+
         if not self.already_loaded:
             self.header = Label(pygame.rect.Rect(width / 2 - 200, 10, 400, 30), "Delete an account", options={
                 Options.BACKGROUND: (20, 61, 89),
@@ -46,10 +49,10 @@ class DeleteAccountScene(Scene):
         if self.yes_btn.clicked:
             Account.delete_account(Account.account_to_delete)
             Account.account_to_delete = None
-            Scene.change_scene(1)
+            Scene.push_scene(1)
 
         if self.no_btn.clicked:
-            Scene.change_scene(1)
+            Scene.push_scene(1)
 
     # Clear the screen and draw the gui
     def draw(self, screen):

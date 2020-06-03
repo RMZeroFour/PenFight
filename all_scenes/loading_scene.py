@@ -13,12 +13,15 @@ class LoadingScene(Scene):
     loading_circle = None
     circle_angle = 0
 
-    def start(self, width, height):
+    def start(self, screen):
         if self.already_loaded:
             return
 
         # Spawn a new thread to load all resources
         Thread(target=self.load_assets).start()
+
+        width = screen.get_width()
+        height = screen.get_height()
 
         # Meanwhile create a label to show that the game is loading
         text_rect = pygame.rect.Rect(width / 2 - 100, height / 2 - 50, 200, 100)
@@ -66,4 +69,4 @@ class LoadingScene(Scene):
 
         # If loading has finished, then go to account loading
         else:
-            Scene.change_scene(1)
+            Scene.push_scene(1)

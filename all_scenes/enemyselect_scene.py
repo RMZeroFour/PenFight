@@ -6,7 +6,7 @@ from gui import (Label, Button, Options)
 class EnemySelectScene(Scene):
     back_btn = None
 
-    def start(self, width, height):
+    def start(self, screen):
         if not self.already_loaded:
             self.back_btn = Button(pygame.rect.Rect(10, 10, 60, 40), "Back", {
                 Options.BORDER_WIDTH: 0,
@@ -22,7 +22,7 @@ class EnemySelectScene(Scene):
         self.back_btn.update(event)
 
         if self.back_btn.clicked:
-            Scene.change_scene(4)
+            Scene.pop_scene()
 
     def draw(self, screen):
         screen.fill((82, 173, 200))

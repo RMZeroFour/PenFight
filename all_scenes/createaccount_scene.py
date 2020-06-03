@@ -10,7 +10,10 @@ class CreateAccountScene(Scene):
     back_btn = None
 
     # Create the various gui elements
-    def start(self, width, height):
+    def start(self, screen):
+        width = screen.get_width()
+        height = screen.get_height()
+
         if self.already_loaded:
             self.name_box.set_text("")
 
@@ -46,10 +49,10 @@ class CreateAccountScene(Scene):
         if self.create_btn.clicked:
             new_account = Account(self.name_box.text)
             Account.save_to_file(new_account)
-            Scene.change_scene(1)
+            Scene.push_scene(1)
 
         if self.back_btn.clicked:
-            Scene.change_scene(1)
+            Scene.push_scene(1)
 
     # Clear the screen and draw the gui
     def draw(self, screen):

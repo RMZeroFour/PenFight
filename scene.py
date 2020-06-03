@@ -4,14 +4,17 @@ import pygame
 # Create a custom event to handle changing of scenes
 SCENE_TRANSITION = pygame.USEREVENT + 1
 
-
 # Base class for scenes
 class Scene:
+
+    # Maintain a stack of scenes
+    scene_stack = []
+
     # First time loading the scene
     already_loaded = False
 
     # Called once on transition
-    def start(self, width, height):
+    def start(self, screen):
         return
 
     # Called for every event
@@ -22,9 +25,18 @@ class Scene:
     def draw(self, screen):
         return
 
-    # Used to fire the SCENE_TRANSITION event to change scenes based on index
     # I Should really have created a Finite State Machine, but this is fine for a small game like this :-P
+
+    # Used to fire the SCENE_TRANSITION event to push a scene onto the scene stack, that is, load the next scene
     @staticmethod
-    def change_scene(scene_id):
-        event = pygame.event.Event(SCENE_TRANSITION, {"next_scene_id": scene_id})
+    def push_scene(next_scene_id):
+        Scene.scene_stack.append(next_scene_id)
+        event = pygame.event.Event(SCENE_TRANSITION)
+        pygame.event.post(event)
+
+    # Used to fire the SCENE_POP event to pop a scene from the scene stack, that is, return to the previous scene
+    @staticmethod
+    def pop_scene():
+        Scene.scene_stack.pop()
+        event = pygame.event.Event(SCENE_TRANSITION)
         pygame.event.post(event)
