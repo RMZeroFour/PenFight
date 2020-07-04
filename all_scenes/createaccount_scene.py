@@ -29,6 +29,7 @@ class CreateAccountScene(Scene):
             self.create_btn = Button(pygame.rect.Rect(width / 2 - 100, height / 2 + 50, 200, 30), "Create", options={
                 Options.BACKGROUND: (20, 61, 89),
                 Options.FOREGROUND: (244, 180, 26),
+                Options.HOVERED_BACKGROUND: (10, 30, 45),
                 Options.BORDER_WIDTH: 0,
             })
             self.back_btn = Button(pygame.rect.Rect(10, 10, 60, 40), "Back", {
@@ -41,11 +42,12 @@ class CreateAccountScene(Scene):
 
             self.already_loaded = True
 
-        # Check the buttons and switch to corresponding scenes when clicked
+    # Check the buttons and switch to corresponding scenes when clicked
     def update(self, event):
         for elt in (self.name_box, self.create_btn, self.back_btn):
             elt.update(event)
 
+        self.create_btn.set_enabled(len(self.name_box.text) > 0)
         if self.create_btn.clicked:
             new_account = Account(self.name_box.text)
             Account.save_to_file(new_account)

@@ -16,7 +16,7 @@ class Account:
     def __init__(self, name):
         self.name = name
         self.pens = []
-        self.money = 0
+        self.money = 100
         self.stats = {}
         self.settings = Settings()
 

@@ -24,7 +24,7 @@ class LoadingScene(Scene):
         height = screen.get_height()
 
         # Meanwhile create a label to show that the game is loading
-        text_rect = pygame.rect.Rect(width / 2 - 100, height / 2 - 50, 200, 100)
+        text_rect = pygame.rect.Rect(width / 2 - 100, height / 2 - 25, 200, 50)
         self.loading_text = Label(text_rect, "Loading...", {
             Options.BACKGROUND: (20, 61, 89),
             Options.FOREGROUND: (244, 180, 26),
@@ -46,6 +46,16 @@ class LoadingScene(Scene):
 
         # Load the settings gear icon
         Resources.add("gear", pygame.image.load("assets/gear.png"))
+
+        # Load the coin image
+        Resources.add("coin", pygame.image.load("assets/coin.png"))
+
+        # Load the pen data and images
+        Resources.add("all_pens", Resources.load_text("assets/pens.json"))
+        Resources.add("alpha_pen", pygame.image.load("assets/alpha_pen.png"))
+        Resources.add("beta_pen", pygame.image.load("assets/beta_pen.png"))
+        Resources.add("gamma_pen", pygame.image.load("assets/gamma_pen.png"))
+        Resources.add("delta_pen", pygame.image.load("assets/delta_pen.png"))
 
         self.loaded = True
 
