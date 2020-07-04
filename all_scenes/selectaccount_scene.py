@@ -2,7 +2,6 @@ import pygame
 from scene import Scene
 from gui import (Label, Button, Options)
 from account import Account
-import math
 
 
 class SelectAccountScene(Scene):

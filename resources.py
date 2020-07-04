@@ -29,3 +29,9 @@ class Resources:
         sprite.rect = sprite.image.get_rect()
         sprite.rect.topleft = (0, 0)
         return sprite
+
+    # Used to load a text asset from file
+    @staticmethod
+    def load_text(filename):
+        with open(filename, "r") as file:
+            return file.read()
