@@ -85,8 +85,7 @@ class Label(GUI):
     def update(self, event):
         return
 
-    def set_text(self, text):
-        self.text = text
+    def recreate(self):
         self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
         self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
 

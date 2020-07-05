@@ -12,13 +12,32 @@ class Account:
     # Global variable to hold the player currently selected for deleting
     account_to_delete = None
 
+    total_wins_key = "total_wins"
+    total_losses_key = "total_losses"
+    total_money_key = "total_money"
+    unlocked_pens_key = "unlocked_pens"
+
     # Create a new account with default settings
     def __init__(self, name):
         self.name = name
         self.pens = []
         self.money = 100
-        self.stats = {}
+        self.stats = self.create_stats()
         self.settings = Settings()
+
+    def purchase_pen(self, pen):
+        self.pens.append(pen.name)
+        self.money -= pen.cost
+        self.stats[Account.unlocked_pens_key] = len(self.pens)
+
+    @staticmethod
+    def create_stats():
+        return {
+            Account.total_wins_key: 0,
+            Account.total_losses_key: 0,
+            Account.total_money_key: 0,
+            Account.unlocked_pens_key: 0
+        }
 
     @staticmethod
     def save_to_file(acc):

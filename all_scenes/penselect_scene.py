@@ -13,6 +13,9 @@ class PenSelectScene(Scene):
     select_btn = None
     purchase_btn = None
 
+    mass_text = None
+    friction_text = None
+
     coins_image = None
     coins_text = None
 
@@ -43,9 +46,16 @@ class PenSelectScene(Scene):
                 Options.FOREGROUND: (244, 180, 26),
                 Options.BORDER_WIDTH: 0,
             }
-
             self.header = Label(pygame.rect.Rect(width / 2 - 200, 10, 400, 30), "Select your weapon!", label_options)
             self.coins_text = Label(pygame.rect.Rect(width - 110, height - 55, 100, 40), "0", label_options)
+
+            label_options = {
+                Options.BACKGROUND: (82, 173, 200),
+                Options.FOREGROUND: (20, 61, 89),
+                Options.BORDER_WIDTH: 0,
+            }
+            self.mass_text = Label(pygame.rect.Rect(width / 5, 100, 100, 30), "Mass: ", label_options)
+            self.friction_text = Label(pygame.rect.Rect(width * 3 / 5, 100, 100, 30), "Friction: ", label_options)
 
             self.coins_image = Image(pygame.rect.Rect(width - 175, height - 60, 50, 50), Resources.get("coin"), {
                 Options.BACKGROUND: (82, 173, 200)
@@ -60,7 +70,7 @@ class PenSelectScene(Scene):
             }
             self.left_btn = Button(pygame.rect.Rect(10, height / 2 - 20, 20, 30), "<", btn_options)
             self.right_btn = Button(pygame.rect.Rect(width - 30, height / 2 - 20, 20, 30), ">", btn_options)
-            self.select_btn = Button(pygame.rect.Rect(width / 2 - 40, height * 5 / 6, 80, 40), "Select", btn_options)
+            self.select_btn = Button(pygame.rect.Rect(width / 2 - 45, height * 5 / 6, 90, 50), "Select", btn_options)
             self.purchase_btn = Button(pygame.rect.Rect(width / 2 - 125, height * 5 / 6, 250, 40), "", btn_options)
 
             self.center_pos = pygame.rect.Rect(width / 2 - 50, height / 2 - 50, 100, 100)
@@ -68,13 +78,13 @@ class PenSelectScene(Scene):
                 self.pen_images.append(Image(self.center_pos, Resources.get(pen.image_file)))
 
             self.reposition_images()
-            self.update_purchase_btn()
+            self.update_shop_data()
             self.reset_coin_text()
 
             self.already_loaded = True
 
     def update(self, event):
-        for elt in (self.back_btn, self.left_btn, self.right_btn):
+        for elt in (self.back_btn, self.left_btn, self.right_btn, self.mass_text, self.friction_text):
             elt.update(event)
 
         cur_pen = Pen.all_pens[self.pen_index]
@@ -87,8 +97,7 @@ class PenSelectScene(Scene):
             self.purchase_btn.set_enabled(Account.current_account.money >= cur_pen.cost)
             self.purchase_btn.update(event)
             if self.purchase_btn.clicked:
-                Account.current_account.pens.append(cur_pen.name)
-                Account.current_account.money -= cur_pen.cost
+                Account.current_account.purchase_pen(cur_pen)
                 self.reset_coin_text()
 
         if self.back_btn.clicked:
@@ -101,7 +110,7 @@ class PenSelectScene(Scene):
             elif self.right_btn.clicked:
                 self.pen_index += 1
                 self.reposition_images()
-            self.update_purchase_btn()
+            self.update_shop_data()
 
     def reposition_images(self):
         self.visible_pen_images.clear()
@@ -123,10 +132,18 @@ class PenSelectScene(Scene):
         self.right_btn.set_enabled(self.pen_index < len(self.pen_images) - 1)
 
     def reset_coin_text(self):
-        self.coins_text.set_text(str(Account.current_account.money))
+        self.coins_text.text = str(Account.current_account.money)
+        self.coins_text.recreate()
 
-    def update_purchase_btn(self):
+    def update_shop_data(self):
         cur_pen = Pen.all_pens[self.pen_index]
+
+        self.mass_text.text = f"Mass: {cur_pen.mass}"
+        self.mass_text.recreate()
+
+        self.friction_text.text = f"Friction: {cur_pen.friction}"
+        self.friction_text.recreate()
+
         if cur_pen.name not in Account.current_account.pens:
             self.purchase_btn.text = f"Purchase for {cur_pen.cost}"
             self.purchase_btn.recreate()
@@ -134,7 +151,8 @@ class PenSelectScene(Scene):
     def draw(self, screen):
         screen.fill((82, 173, 200))
 
-        for elt in (self.header, self.back_btn, self.left_btn, self.right_btn, self.coins_image, self.coins_text):
+        for elt in (self.header, self.back_btn, self.left_btn, self.right_btn,
+                    self.coins_image, self.coins_text, self.mass_text, self.friction_text):
             elt.draw(screen)
 
         if Pen.all_pens[self.pen_index].name in Account.current_account.pens:

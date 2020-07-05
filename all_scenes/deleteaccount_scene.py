@@ -40,7 +40,8 @@ class DeleteAccountScene(Scene):
 
             self.already_loaded = True
 
-        self.confirm_text.set_text(f"Are you sure you want to delete account {Account.account_to_delete.name}?")
+        self.confirm_text.text = f"Are you sure you want to delete account {Account.account_to_delete.name}?"
+        self.confirm_text.recreate()
 
     def update(self, event):
         for elt in (self.yes_btn, self.no_btn):

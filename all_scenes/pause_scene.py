@@ -34,7 +34,8 @@ class PauseScene(Scene):
             settings_gear_image = Resources.get("gear")
             settings_gear_rect = pygame.rect.Rect(width * 4/5 - 100, height * 4/5 - 100, 75, 75)
             self.settings_btn = Image(settings_gear_rect, settings_gear_image, {
-                Options.BACKGROUND: (20, 61, 89)
+                Options.BACKGROUND: (20, 61, 89),
+                Options.HOVERED_BACKGROUND: (10, 30, 45)
             })
 
             self.already_loaded = True

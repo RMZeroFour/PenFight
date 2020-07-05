@@ -9,6 +9,7 @@ class MainMenuScene(Scene):
     title = None
 
     play_btn = None
+    stats_btn = None
     about_btn = None
     settings_btn = None
     back_btn = None
@@ -38,12 +39,14 @@ class MainMenuScene(Scene):
         }
 
         self.play_btn = Button(btn_rect, "Play", btn_options)
-        self.about_btn = Button(btn_rect.copy().move(0, 100), "About", btn_options)
+        self.stats_btn = Button(btn_rect.copy().move(0, 75), "Stats", btn_options)
+        self.about_btn = Button(btn_rect.copy().move(0, 150), "About", btn_options)
 
         settings_gear_image = Resources.get("gear")
         settings_gear_rect = pygame.rect.Rect(width - 100, height - 100, 75, 75)
         self.settings_btn = Image(settings_gear_rect, settings_gear_image, {
-            Options.BACKGROUND: (20, 61, 89)
+            Options.BACKGROUND: (20, 61, 89),
+            Options.HOVERED_BACKGROUND: (10, 30, 45)
         })
 
         self.back_btn = Button(pygame.rect.Rect(10, 10, 60, 40), "Back", {
@@ -58,14 +61,18 @@ class MainMenuScene(Scene):
 
     # Check the buttons and switch to corresponding scenes when clicked
     def update(self, event):
-        for btn in (self.play_btn, self.about_btn, self.back_btn, self.settings_btn):
+        for btn in (self.play_btn, self.stats_btn, self.about_btn, self.back_btn, self.settings_btn):
             btn.update(event)
 
         # Goto single player enemy select scene
         if self.play_btn.clicked:
             Scene.push_scene(5)
 
-        # Goto about the about scene
+        # Goto the stats scene
+        elif self.stats_btn.clicked:
+            Scene.push_scene(10)
+
+        # Goto the about scene
         elif self.about_btn.clicked:
             Scene.push_scene(11)
 
@@ -83,5 +90,5 @@ class MainMenuScene(Scene):
 
         self.title.draw(screen)
 
-        for btn in (self.play_btn, self.about_btn, self.back_btn, self.settings_btn):
+        for btn in (self.play_btn, self.stats_btn, self.about_btn, self.back_btn, self.settings_btn):
             btn.draw(screen)
