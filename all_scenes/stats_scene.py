@@ -20,10 +20,10 @@ class StatsScene(Scene):
     @staticmethod
     def create_metrics():
         StatsScene.all_metrics = {
-            "Total Wins": (lambda acc: acc.stats[Account.total_wins_key]),
-            "Total Losses": (lambda acc: acc.stats[Account.total_losses_key]),
-            "Total Money": (lambda acc: acc.stats[Account.total_money_key]),
-            "Unlocked Pens": (lambda acc: acc.stats[Account.unlocked_pens_key]),
+            "Total Wins": (lambda acc: acc.stats[Account.TOTAL_WINS]),
+            "Total Losses": (lambda acc: acc.stats[Account.TOTAL_LOSSES]),
+            "Total Money": (lambda acc: acc.stats[Account.TOTAL_MONEY]),
+            "Unlocked Pens": (lambda acc: acc.stats[Account.UNLOCKED_PENS]),
         }
 
     def start(self, screen):
