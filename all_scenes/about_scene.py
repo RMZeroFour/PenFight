@@ -1,11 +1,11 @@
 import pygame
 from scene import (Scene, SCENE_TRANSITION)
 from gui import (Label, Button, Options)
-from random import random
-from settings import Settings
+
 
 class AboutScene(Scene):
     back_btn = None
+    about_labels = []
 
     def start(self, screen):
         if not self.already_loaded:
@@ -16,6 +16,20 @@ class AboutScene(Scene):
                 Options.HOVERED_BACKGROUND: (10, 30, 45),
                 Options.FONT: pygame.font.SysFont("Comic Sans MS", 15)
             })
+
+            about_text = "This game was made by Ritobroto Mukherjee and\n" \
+                         "Shivam Gupta (who has done absolutely nothing yet)\n" \
+                         "as practice for collaboration."
+            y_offset = 0
+            for line in about_text.splitlines():
+                self.about_labels.append(Label(pygame.rect.Rect(10, 200 + y_offset * 30, screen.get_width() - 10, 30),
+                                               line,
+                                               {
+                                                   Options.BACKGROUND: (82, 173, 200),
+                                                   Options.FOREGROUND: (20, 61, 89),
+                                                   Options.BORDER_WIDTH: 0
+                                               }))
+                y_offset += 1
 
             self.already_loaded = True
 
@@ -28,3 +42,5 @@ class AboutScene(Scene):
     def draw(self, screen):
         screen.fill((82, 173, 200))
         self.back_btn.draw(screen)
+        for elt in self.about_labels:
+            elt.draw(screen)
