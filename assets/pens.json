@@ -1,34 +1,43 @@
 [
     {
-        "name": "Alpha",
-        "mass": 10.0,
-        "friction": 0.5,
-        "image_file": "alpha_pen",
-        "dimensions": [60.0, 30.0],
-        "cost": 100
+        "name": "Pencil",
+        "density": 1.0,
+        "friction": 0.95,
+        "image_file": "pencil",
+        "cost": 100,
+        "scale_size": [20, 200],
+        "description": [
+            "Who the hell thought it",
+            "was a good idea to bring",
+            "a pencil to a pen fight?"
+        ],
+        "mesh_points": [
+            [0.0, 10.1],
+            [-0.9, 4.0],
+            [-0.9, -10.1],
+            [0.9, -10.1],
+            [0.9, 4.0]
+        ]
     },
     {
-        "name": "Beta",
-        "mass": 130.0,
-        "friction": 5.5,
-        "image_file": "beta_pen",
-        "dimensions": [60.0, 30.0],
-        "cost": 200
-    },
-    {
-        "name": "Gamma",
-        "mass": 130.0,
-        "friction": 5.5,
-        "image_file": "gamma_pen",
-        "dimensions": [60.0, 30.0],
-        "cost": 220
-    },
-    {
-        "name": "Delta",
-        "mass": 130.0,
-        "friction": 5.5,
-        "image_file": "delta_pen",
-        "dimensions": [60.0, 30.0],
-        "cost": 270
+        "name": "Basic Pen",
+        "density": 2.0,
+        "friction": 0.92,
+        "image_file": "basic_pen",
+        "cost": 250,
+        "scale_size": [25, 180],
+        "description": [
+            "Cheap but reliable.",
+            "Whenever in doubt,",
+            "go for the classics."
+        ],
+        "mesh_points": [
+            [0.0, 9.0],
+            [-0.95, 7.3],
+            [-0.95, -5.5],
+            [0.0, -9.0],
+            [0.95, -5.5],
+            [0.95, 7.3]
+        ]
     }
 ]

@@ -64,7 +64,7 @@ class MainMenuScene(Scene):
         for btn in (self.play_btn, self.stats_btn, self.about_btn, self.back_btn, self.settings_btn):
             btn.update(event)
 
-        # Goto single player enemy select scene
+        # Goto single player pen select scene
         if self.play_btn.clicked:
             Scene.push_scene(5)
 

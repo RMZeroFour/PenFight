@@ -85,10 +85,12 @@ class Label(GUI):
     def update(self, event):
         return
 
-    def recreate(self):
+    def recreate(self, center=True):
         self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
-        self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
-
+        if center:
+            self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
+        else:
+            self.rendered_rect = self.rendered.get_rect(topleft=self.rect.topleft)
 
 class Button(GUI):
     def __init__(self, rect, text, options=None):

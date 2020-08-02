@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\all_scenes"
   ],
+  "SelectedNode": "\\all_scenes\\game_scene.py",
   "PreviewInSolutionExplorer": false
 }
