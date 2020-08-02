@@ -1,27 +1,28 @@
-import json
-from resources import Resources
+from game_code.units import *
+from game_code.b2d import *
 
 
 class Pen:
-    all_pens = []
-    current_pen = None
+    def __init__(self, data, position, table_body, world):
+        self.data = data
 
-    def __init__(self):
-        self.name = ""
-        self.mass = 0.0
-        self.friction = 0.0
-        self.image_file = ""
-        self.dimensions = (0.0, 0.0)
-        self.cost = 0
+        self.body = world.CreateDynamicBody(position=position)
+        self.shape = PolyShape(vertices=data.mesh_points)
 
-    @staticmethod
-    def load_all_pens():
-        json_data = Resources.get("all_pens")
-        dicts = json.loads(json_data)
-        Pen.all_pens = [Pen.dict_to_pen(d) for d in dicts]
+        fixture_def = FixtureDef(density=data.density, friction=data.friction, restitution=0)
+        fixture_def.shape = self.shape
+        self.fixture = self.body.CreateFixture(fixture_def)
 
-    @staticmethod
-    def dict_to_pen(d):
-        p = Pen()
-        p.__dict__.update(d)
-        return p
+        world.CreateFrictionJoint(bodyA=self.body, bodyB=table_body, maxForce=100, maxTorque=100)
+
+    def apply_force(self, point, force):
+        self.body.ApplyLinearImpulse(force, point, True)
+
+    def get_position(self):
+        return self.body.position
+
+    def get_rotation(self):
+        return self.body.angle
+
+    def get_vertices(self):
+        return [(self.body.transform * v) for v in self.body.fixtures[0].shape.vertices]

@@ -2,7 +2,7 @@
 import pygame
 
 # Create a custom event to handle changing of scenes
-SCENE_TRANSITION = pygame.USEREVENT + 1
+SCENE_TRANSITION = pygame.USEREVENT
 
 # Base class for scenes
 class Scene:
