@@ -60,9 +60,10 @@ class StatsScene(Scene):
                 Options.FONT: pygame.font.SysFont("Comic Sans MS", 15)
             }
 
-            self.up_btn = Button(pygame.rect.Rect(width * 5 / 6, height * 1 / 5, 60, 40), "Up", btn_options)
             self.back_btn = Button(pygame.rect.Rect(10, 10, 60, 40), "Back", btn_options)
-            self.down_btn = Button(pygame.rect.Rect(width * 5 / 6, height * 3 / 5, 60, 40), "Down", btn_options)
+
+            self.up_btn = Button(pygame.rect.Rect(width * 5/6, height * 2/6, 60, 40), "Up", btn_options)
+            self.down_btn = Button(pygame.rect.Rect(width * 5/6, height * 4/6 - 40, 60, 40), "Down", btn_options)
 
             self.already_loaded = True
 

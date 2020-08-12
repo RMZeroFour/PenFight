@@ -53,7 +53,10 @@ class LoadingScene(Scene):
         # Load the pen data and images
         Resources.add("all_pens", Resources.load_text("assets/pens.json"))
         Resources.add("pencil", pygame.image.load("assets/pencil.png"))
-        Resources.add("basic_pen", pygame.image.load("assets/basic_pen.png"))
+        Resources.add("ball_pen", pygame.image.load("assets/ball_pen.png"))
+        Resources.add("blue_gel_pen", pygame.image.load("assets/blue_gel_pen.png"))
+        Resources.add("black_gel_pen", pygame.image.load("assets/black_gel_pen.png"))
+        Resources.add("mech_pencil", pygame.image.load("assets/mech_pencil.png"))
 
         self.loaded = True
 

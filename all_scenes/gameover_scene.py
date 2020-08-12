@@ -40,7 +40,12 @@ class GameOverScene(Scene):
             self.already_loaded = True
 
         self.recreate_victory_texts(width, height)
-        self.give_coins()
+
+        Account.current_account.reward_money(GameOverScene.result.coins)
+        if GameOverScene.result.state == GameResult.VictoryState.WIN:
+            Account.current_account.add_win()
+        elif GameOverScene.result.state == GameResult.VictoryState.LOSE:
+            Account.current_account.add_loss()
 
     def recreate_victory_texts(self, w, h):
         coins = GameOverScene.result.coins
@@ -54,18 +59,23 @@ class GameOverScene(Scene):
             Options.BORDER_WIDTH: 0,
         })
 
-    def give_coins(self):
-        Account.current_account.money += GameOverScene.result.coins
-
     def update(self, event):
         for btn in (self.replay_btn, self.main_menu_btn):
             btn.update(event)
 
         if self.replay_btn.clicked:
-            Scene.push_scene(5)
+            Scene.fire_event = False
+            for i in range(0, 2):
+                Scene.pop_scene()
+            Scene.fire_event = True
+            Scene.pop_scene()
 
         elif self.main_menu_btn.clicked:
-            Scene.push_scene(4)
+            Scene.fire_event = False
+            for i in range(0, 3):
+                Scene.pop_scene()
+            Scene.fire_event = True
+            Scene.pop_scene()
 
     # Clear the screen and draw the gui
     def draw(self, screen):

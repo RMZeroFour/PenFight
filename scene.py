@@ -10,6 +10,9 @@ class Scene:
     # Maintain a stack of scenes
     scene_stack = []
 
+    # Flag to check if Transition event needs to be fired
+    fire_event = True
+
     # First time loading the scene
     already_loaded = False
 
@@ -31,12 +34,14 @@ class Scene:
     @staticmethod
     def push_scene(next_scene_id):
         Scene.scene_stack.append(next_scene_id)
-        event = pygame.event.Event(SCENE_TRANSITION)
-        pygame.event.post(event)
+        if Scene.fire_event:
+            event = pygame.event.Event(SCENE_TRANSITION)
+            pygame.event.post(event)
 
     # Used to fire the SCENE_POP event to pop a scene from the scene stack, that is, return to the previous scene
     @staticmethod
     def pop_scene():
         Scene.scene_stack.pop()
-        event = pygame.event.Event(SCENE_TRANSITION)
-        pygame.event.post(event)
+        if Scene.fire_event:
+            event = pygame.event.Event(SCENE_TRANSITION)
+            pygame.event.post(event)

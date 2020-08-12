@@ -70,14 +70,14 @@ class MainMenuScene(Scene):
 
         # Goto the stats scene
         elif self.stats_btn.clicked:
-            Scene.push_scene(10)
+            Scene.push_scene(11)
 
         # Goto the about scene
         elif self.about_btn.clicked:
-            Scene.push_scene(11)
+            Scene.push_scene(12)
 
         elif self.settings_btn.clicked:
-            Scene.push_scene(12)
+            Scene.push_scene(13)
 
         # Go back to account select scene
         elif self.back_btn.clicked:

@@ -12,7 +12,7 @@ import random
 
 class GameScene(Scene):
     GAME_OVER_EVENT = pygame.USEREVENT + 1
-    CHECK_WINNER_EVENT = pygame.USEREVENT + 2
+    game_over = False
 
     world = None
     table = None
@@ -25,7 +25,6 @@ class GameScene(Scene):
     move_made = True
 
     turn_count = 0
-    game_over = False
 
     turn_text = None
     victory_text = None
@@ -57,20 +56,21 @@ class GameScene(Scene):
             self.reset_game_data()
             self.already_loaded = True
 
-        if self.game_over:
+        if GameScene.game_over:
             self.reset_game_data()
 
     def reset_game_data(self):
-        self.game_over = False
+        GameScene.game_over = False
 
         self.world = World((0, 0))
 
         world_center = screen_to_world((self.width / 2, self.height / 2))
-        table_size = screen_to_world((700.0, 500.0))
+        table_size = screen_to_world((self.width - 50, self.height - 100))
 
         self.table = Table(world_center, table_size, self.world)
-        self.players = [Pen(PenData.current_pen, (world_center[0] - 10, world_center[1]), self.table.body, self.world),
-                        Pen(random.choice(PenData.all_pens), (world_center[0] + 10, world_center[1]), self.table.body, self.world)]
+        self.players = [Pen(PenData.current_pen, (world_center[0] - 35, world_center[1]), self.table.body, self.world),
+                        Pen(random.choice(PenData.all_pens), (world_center[0] + 35, world_center[1]), self.table.body,
+                            self.world)]
 
         self.enemy_ai = NeuralNetwork.create(15, 8, 2)
 
@@ -82,12 +82,13 @@ class GameScene(Scene):
 
         self.player_sprites = {p: PenSprite(Resources.get(p.data.image_file)) for p in self.players}
 
-        pygame.time.set_timer(GameScene.CHECK_WINNER_EVENT, 3000)
-
         self.next_turn()
 
     def update(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and not self.mouse_dragging:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+            Scene.push_scene(8)
+
+        elif event.type == pygame.MOUSEBUTTONDOWN and not self.mouse_dragging:
             self.drag_start_pos = self.drag_end_pos = pygame.mouse.get_pos()
             self.mouse_dragging = True
         elif event.type == pygame.MOUSEMOTION and self.mouse_dragging:
@@ -111,39 +112,16 @@ class GameScene(Scene):
                 self.players[1].apply_force(point, force)
                 self.move_made = True
 
-        elif event.type == GameScene.CHECK_WINNER_EVENT:
-            player_inside = self.table.contains_point(self.players[0].body.position)
-            comp_inside = self.table.contains_point(self.players[1].body.position)
-
-            if not player_inside and not comp_inside:
-                self.winner_player_index = 2
-                self.victory_text.text = f"It's a tie!"
-                self.victory_text.recreate()
-                pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 3000)
-                pygame.time.set_timer(GameScene.CHECK_WINNER_EVENT, 0)
-            elif not player_inside:
-                self.winner_player_index = 1
-                self.victory_text.text = f"Computer wins!"
-                self.victory_text.recreate()
-                pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 3000)
-                pygame.time.set_timer(GameScene.CHECK_WINNER_EVENT, 0)
-            elif not comp_inside:
-                self.winner_player_index = 0
-                self.victory_text.text = f"Player wins!"
-                self.victory_text.recreate()
-                pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 3000)
-                pygame.time.set_timer(GameScene.CHECK_WINNER_EVENT, 0)
-
         elif event.type == GameScene.GAME_OVER_EVENT:
             pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 0)
 
-            self.game_over = True
+            GameScene.game_over = True
 
             state = GameResult.VictoryState.WIN if self.winner_player_index == 0 else \
                 GameResult.VictoryState.LOSE if self.winner_player_index == 1 else GameResult.VictoryState.TIE
             GameOverScene.result = GameResult(state)
 
-            Scene.push_scene(9)
+            Scene.push_scene(10)
 
     def cast_ray(self, player, start, end):
         input = RayCastInput(p1=start, p2=end, maxFraction=1)
@@ -171,10 +149,14 @@ class GameScene(Scene):
         elif self.winner_player_index < 2:
             self.draw_player(screen, self.players[self.winner_player_index])
 
-        if self.move_made and self.winner_player_index == -1 \
-                and GameScene.velocity_near_zero(self.players[0]) \
-                and GameScene.velocity_near_zero(self.players[1]):
-            self.next_turn()
+        if self.winner_player_index == -1 and \
+                GameScene.velocity_near_zero(self.players[0]) and \
+                GameScene.velocity_near_zero(self.players[1]):
+            if not (self.table.contains_point(self.players[0].body.position)
+                 or self.table.contains_point(self.players[1].body.position)):
+                self.check_winner()
+            elif self.move_made:
+                self.next_turn()
 
         if self.mouse_dragging:
             drag_start = Vec2(screen_to_world((self.drag_start_pos[0], self.height - self.drag_start_pos[1])))
@@ -199,9 +181,11 @@ class GameScene(Scene):
         pygame.draw.line(surface, color, start, end, line_size)
         rotation = math.atan2(start[1] - end[1], end[0] - start[0]) + math.pi / 2
         pygame.draw.polygon(surface, color,
-            [(end[0] + arrow_size * math.sin(rotation), end[1] + arrow_size * math.cos(rotation)),
-             (end[0] + arrow_size * math.sin(rotation - 2.0944), end[1] + arrow_size * math.cos(rotation - 2.0944)),
-             (end[0] + arrow_size * math.sin(rotation + 2.0944), end[1] + arrow_size * math.cos(rotation + 2.0944))])
+                            [(end[0] + arrow_size * math.sin(rotation), end[1] + arrow_size * math.cos(rotation)),
+                             (end[0] + arrow_size * math.sin(rotation - 2.0944),
+                              end[1] + arrow_size * math.cos(rotation - 2.0944)),
+                             (end[0] + arrow_size * math.sin(rotation + 2.0944),
+                              end[1] + arrow_size * math.cos(rotation + 2.0944))])
 
     def next_turn(self):
         self.move_made = False
@@ -209,6 +193,26 @@ class GameScene(Scene):
 
         self.turn_text.text = f"Player's Turn" if self.current_player_index == 0 else f"Computer's Turn"
         self.turn_text.recreate(False)
+
+    def check_winner(self):
+        player_inside = self.table.contains_point(self.players[0].body.position)
+        comp_inside = self.table.contains_point(self.players[1].body.position)
+
+        if not player_inside and not comp_inside:
+            self.winner_player_index = 2
+            self.victory_text.text = f"It's a tie!"
+            self.victory_text.recreate()
+            pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 2000)
+        elif not player_inside:
+            self.winner_player_index = 1
+            self.victory_text.text = f"Computer wins!"
+            self.victory_text.recreate()
+            pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 2000)
+        elif not comp_inside:
+            self.winner_player_index = 0
+            self.victory_text.text = f"Player wins!"
+            self.victory_text.recreate()
+            pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 2000)
 
     def draw_player(self, screen, player):
         position = player.get_position()
@@ -218,20 +222,19 @@ class GameScene(Scene):
         rotation = player.get_rotation()
         rotation = math.degrees(rotation)
 
-        scale = player.data.scale_size
-
         sprite = self.player_sprites[player]
-        sprite.set_transform(position, rotation, scale)
+        sprite.set_transform(position, rotation)
         sprite.draw(screen)
 
-        # vertices = [world_to_screen(v) for v in player.get_vertices()]
-        # vertices = [(v[0], screen.get_height() - v[1]) for v in vertices]
-        
-        # pygame.draw.polygon(screen, (0, 255, 0), vertices)
-        # if self.current_player_index == self.players.index(player):
-        #     pygame.draw.polygon(screen, (0, 0, 0), vertices, 2)
+        vertices = [world_to_screen(v) for v in player.get_vertices()]
+        vertices = [(v[0], screen.get_height() - v[1]) for v in vertices]
+        pygame.draw.polygon(screen, (0, 255, 0), vertices)
+        for v in vertices:
+            pygame.draw.circle(screen, (255, 0, 0), (int(v[0]), int(v[1])), 3)
+        if self.current_player_index == self.players.index(player):
+            pygame.draw.polygon(screen, (0, 0, 0), vertices, 2)
 
     @staticmethod
-    def velocity_near_zero(player, threshold=0.2):
-        return player.body.linearVelocity.lengthSquared <= threshold ** 2 \
-               and player.body.angularVelocity <= threshold
+    def velocity_near_zero(player, linear_threshold=0.3, angular_threshold=0.4):
+        return player.body.linearVelocity.lengthSquared <= linear_threshold ** 2 \
+               and player.body.angularVelocity <= angular_threshold
