@@ -30,6 +30,16 @@ class Account:
         self.money -= pen.cost
         self.stats[Account.UNLOCKED_PENS] = len(self.pens)
 
+    def reward_money(self, money):
+        self.money += money
+        self.stats[Account.TOTAL_MONEY] += money
+
+    def add_win(self):
+        self.stats[Account.TOTAL_WINS] += 1
+
+    def add_loss(self):
+        self.stats[Account.TOTAL_LOSSES] += 1
+
     @staticmethod
     def create_stats():
         return {

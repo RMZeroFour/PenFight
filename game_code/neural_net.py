@@ -1,4 +1,5 @@
 import numpy as np
+import json
 
 
 class NeuralNetwork:
@@ -23,21 +24,22 @@ class NeuralNetwork:
         output_mat = self.output_activation(np.dot(self.weights_ho, hidden_mat) + self.bias_o)
         return output_mat.flatten()
 
-    @staticmethod
-    def crossover(first, second):
-        def cross_matrix(a, b):
-            pivot = int(np.random.random() * (a.size - 1) + 1)
-            mask = ([0] * pivot) + ([1] * (a.size - pivot))
-            mask = np.array(mask).reshape(a.shape)
-            return (a * mask) + (b * (mask ^ 1))
-
-        return NeuralNetwork(cross_matrix(first.weights_ih, second.weights_ih),
-                             cross_matrix(first.bias_h, second.bias_h),
-                             cross_matrix(first.weights_ho, second.weights_ho),
-                             cross_matrix(first.bias_o, second.bias_o))
-
-    def mutate(self, probability):
+    def mutate(self, probability, max_delta):
         for mat in (self.weights_ih, self.bias_h, self.weights_ho, self.bias_h):
             for element in np.nditer(mat, op_flags=['readwrite']):
                 if probability > np.random.random():
-                    element += np.random.random() * 2 - 1
+                    element += (np.random.random() * 2 - 1) * max_delta
+
+    @staticmethod
+    def serialize(nn):
+        data = [nn.weights_ih, nn.bias_h, nn.weights_ho, nn.bias_o]
+        data = [arr.tolist() for arr in data]
+        return json.dumps(data)
+
+    @staticmethod
+    def deserialize(text):
+        data = json.loads(text)
+        data = [np.asarray(arr) for arr in data]
+        wih, bh, who, bo = data
+        return NeuralNetwork(wih, bh, who, bo)
+

@@ -9,11 +9,12 @@ class Pen:
         self.body = world.CreateDynamicBody(position=position)
         self.shape = PolyShape(vertices=data.mesh_points)
 
-        fixture_def = FixtureDef(density=data.density, friction=data.friction, restitution=0)
+        fixture_def = FixtureDef(density=data.density, restitution=data.restitution)
         fixture_def.shape = self.shape
         self.fixture = self.body.CreateFixture(fixture_def)
 
-        world.CreateFrictionJoint(bodyA=self.body, bodyB=table_body, maxForce=100, maxTorque=100)
+        world.CreateFrictionJoint(bodyA=self.body, bodyB=table_body,
+                                  maxForce=data.friction[0], maxTorque=data.friction[1])
 
     def apply_force(self, point, force):
         self.body.ApplyLinearImpulse(force, point, True)

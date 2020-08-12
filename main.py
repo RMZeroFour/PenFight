@@ -9,8 +9,9 @@ from account import Account
 from scene import (Scene, SCENE_TRANSITION)
 import all_scenes
 
+
 # Set up the game window
-WINDOW_WIDTH, WINDOW_HEIGHT = 800, 600
+WINDOW_WIDTH, WINDOW_HEIGHT = 1300, 800
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Python Penfight!")
 
@@ -28,10 +29,11 @@ scenes = {
     6: all_scenes.EnemySelectScene(),
     7: all_scenes.GameScene(),
     8: all_scenes.PauseScene(),
-    9: all_scenes.GameOverScene(),
-    10: all_scenes.StatsScene(),
-    11: all_scenes.AboutScene(),
-    12: all_scenes.SettingsScene(),
+    9: all_scenes.ForfeitScene(),
+    10: all_scenes.GameOverScene(),
+    11: all_scenes.StatsScene(),
+    12: all_scenes.AboutScene(),
+    13: all_scenes.SettingsScene(),
 }
 
 # Push the first scene onto the scene stack
@@ -49,6 +51,10 @@ while not finished:
     for event in pygame.event.get():
         # Check for exit
         if event.type == pygame.QUIT:
+            finished = True
+
+        # Also check for Alt+F4
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_F4 and pygame.key.get_mods() & pygame.KMOD_ALT:
             finished = True
 
         # Check for scene transition

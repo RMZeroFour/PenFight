@@ -11,10 +11,10 @@ class PenData:
     def __init__(self):
         self.name = ""
         self.density = 0.0
-        self.friction = 0.0
+        self.restitution = 0.0
+        self.friction = (0.0, 0.0)
         self.image_file = ""
         self.cost = 0
-        self.scale_size = (0.0, 0.0)
         self.description = []
         self.mesh_points = []
 

@@ -25,13 +25,13 @@ class DeleteAccountScene(Scene):
                                           Options.FOREGROUND: (20, 61, 89),
                                           Options.BORDER_WIDTH: 0
                                       })
-            self.yes_btn = Button(pygame.rect.Rect(width / 2 - 200, height / 2 + 50, 50, 30), "Yes", options={
+            self.yes_btn = Button(pygame.rect.Rect(width / 2 - 200, height / 2 + 50, 50, 40), "Yes", options={
                 Options.BACKGROUND: (20, 61, 89),
                 Options.FOREGROUND: (244, 180, 26),
                 Options.HOVERED_BACKGROUND: (10, 30, 45),
                 Options.BORDER_WIDTH: 0,
             })
-            self.no_btn = Button(pygame.rect.Rect(width / 2 + 200, height / 2 + 50, 50, 30), "No", options={
+            self.no_btn = Button(pygame.rect.Rect(width / 2 + 150, height / 2 + 50, 50, 40), "No", options={
                 Options.BACKGROUND: (20, 61, 89),
                 Options.FOREGROUND: (244, 180, 26),
                 Options.HOVERED_BACKGROUND: (10, 30, 45),

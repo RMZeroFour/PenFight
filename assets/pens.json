@@ -1,43 +1,110 @@
 [
     {
         "name": "Pencil",
-        "density": 1.0,
-        "friction": 0.95,
+        "density": 0.75,
+        "restitution": 0.95,
+        "friction": [100.0, 100.0],
         "image_file": "pencil",
         "cost": 100,
-        "scale_size": [20, 200],
         "description": [
             "Who the hell thought it",
             "was a good idea to bring",
             "a pencil to a pen fight?"
         ],
         "mesh_points": [
-            [0.0, 10.1],
-            [-0.9, 4.0],
-            [-0.9, -10.1],
-            [0.9, -10.1],
-            [0.9, 4.0]
+            [0.0, 15.0],
+            [-1.5, 9.0],
+            [-1.5, -15.0],
+            [1.5, -15.0],
+            [1.5, 9.0]
         ]
     },
     {
-        "name": "Basic Pen",
+        "name": "Ball Pen",
         "density": 2.0,
-        "friction": 0.92,
-        "image_file": "basic_pen",
+        "restitution": 0.92,
+        "friction": [100.0, 100.0],
+        "image_file": "ball_pen",
         "cost": 250,
-        "scale_size": [25, 180],
         "description": [
             "Cheap but reliable.",
             "Whenever in doubt,",
             "go for the classics."
         ],
         "mesh_points": [
-            [0.0, 9.0],
-            [-0.95, 7.3],
-            [-0.95, -5.5],
-            [0.0, -9.0],
-            [0.95, -5.5],
-            [0.95, 7.3]
+            [0.0, 14.0],
+            [-2.0, 11.0],
+            [-2.0, -9.0],
+            [0.0, -14.0],
+            [2.0, -9.0],
+            [2.0, 11.0]
+        ]
+    },
+    {
+        "name": "Blue Gel Pen",
+        "density": 2.5,
+        "restitution": 0.97,
+        "friction": [100.0, 100.0],
+        "image_file": "blue_gel_pen",
+        "cost": 400,
+        "description": [
+            "Leaves a better impression",
+            "than a ball pen. Also leaves",
+            "a bigger mess when leaking."
+        ],
+        "mesh_points": [
+            [0.0, 14.5],
+            [-1.75, 11.0],
+            [-2.0, 6.0],
+            [-2.0, -9.0],
+            [0.0, -14.5],
+            [2.0, -9.0],
+            [2.0, 6.0],
+            [1.75, 11.0]
+        ]
+    },
+    {
+        "name": "Black Gel Pen",
+        "density": 2.0,
+        "restitution": 0.90,
+        "friction": [100.0, 100.0],
+        "image_file": "black_gel_pen",
+        "cost": 400,
+        "description": [
+            "Black ink.",
+            "But just as good",
+            "as any other pen. "
+        ],
+        "mesh_points": [
+            [0.0, 14.5],
+            [-1.5, 9.0],
+            [-1.5, -12.0],
+            [0.0, -14.5],
+            [1.5, -12.0],
+            [1.5, 9.0]
+        ]
+    },
+    {
+        "name": "Mechanical Pencil",
+        "density": 2.0,
+        "restitution": 0.92,
+        "friction": [100.0, 100.0],
+        "image_file": "mech_pencil",
+        "cost": 600,
+        "description": [
+            "Whoever came up with this",
+            "was either utterly genius",
+            "or completely insane..."
+        ],
+        "mesh_points": [
+            [0.0, 13.0],
+            [-1.75, 10.0],
+            [-2.0, 0.0],
+            [-2.0, -7.0],
+            [0.0, -13.0],
+            [2.0, -7.0],
+            [2.0, 0.0],
+            [1.75, 10.0]
         ]
     }
 ]

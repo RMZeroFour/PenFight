@@ -103,9 +103,9 @@ class SelectAccountScene(Scene):
                 Options.FONT: pygame.font.SysFont("Comic Sans MS", 15)
             }
 
-            self.up_btn = Button(pygame.rect.Rect(width * 5 / 6, height * 1 / 5, 60, 40), "Up", btn_options)
-            self.create_btn = Button(pygame.rect.Rect(width * 5 / 6, height * 2 / 5, 60, 40), "New", btn_options)
-            self.down_btn = Button(pygame.rect.Rect(width * 5 / 6, height * 3 / 5, 60, 40), "Down", btn_options)
+            self.up_btn = Button(pygame.rect.Rect(width * 5/6, height * 2/6, 60, 40), "Up", btn_options)
+            self.create_btn = Button(pygame.rect.Rect(width * 5/6, height * 3/6 - 20, 60, 40), "New", btn_options)
+            self.down_btn = Button(pygame.rect.Rect(width * 5/6, height * 4/6 - 40, 60, 40), "Down", btn_options)
 
             self.already_loaded = True
 
@@ -178,7 +178,7 @@ class SelectAccountScene(Scene):
 
             width, height = screen.get_width(), screen.get_height()
 
-            scroll_rect = pygame.rect.Rect(width*5/6 + 100, height*1/6, 10, height*4/6)
+            scroll_rect = pygame.Rect(width*5/6 + 100, height*1/6, 10, height*4/6)
             pygame.draw.rect(screen, (100, 100, 100), scroll_rect)
 
             height_diff = (height*4/6) / len(self.account_btns)
