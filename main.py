@@ -12,7 +12,7 @@ import all_scenes
 
 # Set up the game window
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-pygame.display.set_caption("Python Penfight!")
+pygame.display.set_caption("Python PenFight!")
 
 # Set a delay and repeat timer for keyboard input
 pygame.key.set_repeat(300, 100)
