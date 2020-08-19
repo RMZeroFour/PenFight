@@ -1,12 +1,14 @@
 import pygame
 from scene import Scene
-from gui import (Label, Button, Options)
+from resources import Resources
+from gui import (Label, Button, Image, Options)
 from account import Account
 
 
 class SelectAccountScene(Scene):
     header = None
     no_account_text = None
+    close_btn = None
 
     account_btns = []
     visible_acc_btns = []
@@ -63,6 +65,14 @@ class SelectAccountScene(Scene):
                 Options.FOREGROUND: (244, 180, 26),
                 Options.BORDER_WIDTH: 0,
             })
+
+            close_image = Resources.get("close")
+            close_rect = pygame.rect.Rect(width - 75, 25, 50, 50)
+            self.close_btn = Image(close_rect, close_image, {
+                Options.BACKGROUND: (200, 0, 0),
+                Options.HOVERED_BACKGROUND: (100, 0, 0)
+            })
+
             self.no_account_text = Label(pygame.rect.Rect(width / 2 - 350, height/2, 550, 30),
                                          "No account created. Click the New button to make one.",
                                          options={
@@ -125,13 +135,16 @@ class SelectAccountScene(Scene):
                 Account.account_to_delete = Account.load_from_file(btn.text)
                 Scene.push_scene(3)
 
-        for btn in (self.create_btn, self.up_btn, self.down_btn):
+        for btn in (self.create_btn, self.up_btn, self.down_btn, self.close_btn):
             btn.update(event)
 
         if self.create_btn.clicked:
             Scene.push_scene(2)
 
-        if self.up_btn.clicked:
+        elif self.close_btn.clicked:
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
+
+        elif self.up_btn.clicked:
             self.btn_index -= 1
             self.reposition_buttons()
         elif self.down_btn.clicked:
@@ -165,7 +178,9 @@ class SelectAccountScene(Scene):
     # Clear the screen and draw the gui
     def draw(self, screen):
         screen.fill((82, 173, 200))
-        self.header.draw(screen)
+
+        for elt in (self.header, self.close_btn):
+            elt.draw(screen)
 
         if len(self.account_btns) == 0:
             self.no_account_text.draw(screen)

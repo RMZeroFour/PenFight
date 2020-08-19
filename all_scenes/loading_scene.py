@@ -47,8 +47,14 @@ class LoadingScene(Scene):
         # Load the settings gear icon
         Resources.add("gear", pygame.image.load("assets/gear.png"))
 
+        # Load the close icon
+        Resources.add("close", pygame.image.load("assets/close.png"))
+
         # Load the coin image
         Resources.add("coin", pygame.image.load("assets/coin.png"))
+
+        # Load the random pen image
+        Resources.add("random_pen", pygame.image.load("assets/random_pen.png"))
 
         # Load the pen data and images
         Resources.add("all_pens", Resources.load_text("assets/pens.json"))
@@ -57,6 +63,9 @@ class LoadingScene(Scene):
         Resources.add("blue_gel_pen", pygame.image.load("assets/blue_gel_pen.png"))
         Resources.add("black_gel_pen", pygame.image.load("assets/black_gel_pen.png"))
         Resources.add("mech_pencil", pygame.image.load("assets/mech_pencil.png"))
+        Resources.add("marker", pygame.image.load("assets/marker.png"))
+
+        Resources.add("all_ai", Resources.load_text("assets/ai.json"))
 
         self.loaded = True
 
