@@ -21,15 +21,6 @@ class Resources:
     def has(key):
         return key in Resources.storage
 
-    # Used to load a sprite asset from file
-    @staticmethod
-    def load_sprite(filename):
-        sprite = pygame.sprite.Sprite()
-        sprite.image = pygame.image.load(filename)
-        sprite.rect = sprite.image.get_rect()
-        sprite.rect.topleft = (0, 0)
-        return sprite
-
     # Used to load a text asset from file
     @staticmethod
     def load_text(filename):

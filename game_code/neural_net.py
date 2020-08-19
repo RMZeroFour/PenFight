@@ -1,5 +1,4 @@
 import numpy as np
-import json
 
 
 class NeuralNetwork:
@@ -7,8 +6,7 @@ class NeuralNetwork:
         self.weights_ih, self.bias_h = wih, bh
         self.weights_ho, self.bias_o = who, bo
 
-        self.hidden_activation = lambda v: 1 / (1 + np.exp(-v))
-        self.output_activation = lambda v: np.tanh(v)
+        self.activation = lambda v: 1 / (1 + np.exp(-v))
 
     @staticmethod
     def create(inputs, hiddens, outputs):
@@ -20,8 +18,8 @@ class NeuralNetwork:
 
     def predict(self, input_values):
         input_mat = np.array(input_values).reshape(len(input_values), 1)
-        hidden_mat = self.hidden_activation(np.dot(self.weights_ih, input_mat) + self.bias_h)
-        output_mat = self.output_activation(np.dot(self.weights_ho, hidden_mat) + self.bias_o)
+        hidden_mat = self.activation(np.dot(self.weights_ih, input_mat) + self.bias_h)
+        output_mat = self.activation(np.dot(self.weights_ho, hidden_mat) + self.bias_o)
         return output_mat.flatten()
 
     def mutate(self, probability, max_delta):
@@ -31,14 +29,13 @@ class NeuralNetwork:
                     element += (np.random.random() * 2 - 1) * max_delta
 
     @staticmethod
-    def serialize(nn):
+    def to_array(nn):
         data = [nn.weights_ih, nn.bias_h, nn.weights_ho, nn.bias_o]
         data = [arr.tolist() for arr in data]
-        return json.dumps(data)
+        return data
 
     @staticmethod
-    def deserialize(text):
-        data = json.loads(text)
+    def from_array(data):
         data = [np.asarray(arr) for arr in data]
         wih, bh, who, bo = data
         return NeuralNetwork(wih, bh, who, bo)

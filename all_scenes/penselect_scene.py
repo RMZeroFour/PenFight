@@ -93,7 +93,7 @@ class PenSelectScene(Scene):
         self.reset_coin_text()
 
     def update(self, event):
-        for elt in (self.back_btn, self.left_btn, self.right_btn, self.density_text, self.restitution_text):
+        for elt in (self.back_btn, self.left_btn, self.right_btn):
             elt.update(event)
 
         cur_pen = PenData.all_pens[self.pen_index]

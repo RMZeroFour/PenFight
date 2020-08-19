@@ -11,6 +11,7 @@ class Options(Enum):
     BORDER_WIDTH = "border_width"
     HOVERED_BACKGROUND = "hovered_background"
     CLICKED_BACKGROUND = "clicked_background"
+    TOGGLED_BACKGROUND = "toggled_background"
 
 
 class GUI:
@@ -35,6 +36,16 @@ class GUI:
                 Options.BORDER_WIDTH: 2,
                 Options.HOVERED_BACKGROUND: (200, 200, 200),
                 Options.CLICKED_BACKGROUND: (100, 100, 100),
+            },
+            ToggleButton.__name__: {
+                Options.BACKGROUND: (255, 255, 255),
+                Options.FOREGROUND: (0, 0, 0),
+                Options.FONT: pygame.font.SysFont("Comic Sans MS", 20),
+                Options.BORDER: (0, 0, 0),
+                Options.BORDER_WIDTH: 2,
+                Options.HOVERED_BACKGROUND: (200, 200, 200),
+                Options.CLICKED_BACKGROUND: (100, 100, 100),
+                Options.TOGGLED_BACKGROUND: (100, 100, 100)
             },
             Image.__name__: {
                 Options.BACKGROUND: (255, 255, 255),
@@ -135,6 +146,52 @@ class Button(GUI):
     def recreate(self):
         self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
         self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
+
+
+class ToggleButton(Button):
+    def __init__(self, rect, text, options=None):
+        super().__init__(rect, text, options)
+        self.toggled = False
+        self.group = None
+
+    def set_group(self, group):
+        self.group = group
+
+    def update(self, event):
+        if self.enabled:
+            mouse_pos = pygame.mouse.get_pos()
+            self.hovered = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
+            self.clicked = not self.toggled and (event.type == pygame.MOUSEBUTTONDOWN) and self.hovered
+            if self.clicked:
+                self.toggle()
+
+    def toggle(self):
+        self.toggled = not self.toggled
+
+        if self.group is not None:
+            for elt in self.group:
+                if elt.toggled and elt != self:
+                    elt.toggled = False
+
+    def draw(self, screen):
+        bg_color = self.options[Options.TOGGLED_BACKGROUND if self.toggled else (
+            (Options.CLICKED_BACKGROUND if self.clicked else (
+             Options.HOVERED_BACKGROUND if self.hovered else Options.BACKGROUND)))]
+        pygame.draw.rect(screen, bg_color, self.rect)
+
+        border_width = self.options[Options.BORDER_WIDTH]
+        if border_width > 0:
+            pygame.draw.rect(screen, self.options[Options.BORDER],
+                             self.rect.inflate(border_width, border_width), border_width)
+
+        if self.rendered is None:
+            self.rendered = self.options[Options.FONT].render(self.text, True, self.options[Options.FOREGROUND])
+            self.rendered_rect = self.rendered.get_rect(center=self.rect.center)
+
+        if not self.enabled:
+            pygame.draw.rect(screen, (100, 100, 100), self.rect)
+
+        screen.blit(self.rendered, self.rendered_rect)
 
 
 class Image(GUI):

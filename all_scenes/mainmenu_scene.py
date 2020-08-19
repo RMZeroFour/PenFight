@@ -13,6 +13,7 @@ class MainMenuScene(Scene):
     about_btn = None
     settings_btn = None
     back_btn = None
+    close_btn = None
 
     # Create the various gui elements
     def start(self, screen):
@@ -49,6 +50,13 @@ class MainMenuScene(Scene):
             Options.HOVERED_BACKGROUND: (10, 30, 45)
         })
 
+        close_image = Resources.get("close")
+        close_rect = pygame.rect.Rect(width - 75, 25, 50, 50)
+        self.close_btn = Image(close_rect, close_image, {
+            Options.BACKGROUND: (200, 0, 0),
+            Options.HOVERED_BACKGROUND: (100, 0, 0)
+        })
+
         self.back_btn = Button(pygame.rect.Rect(10, 10, 60, 40), "Back", {
             Options.BORDER_WIDTH: 0,
             Options.BACKGROUND: (20, 61, 89),
@@ -61,7 +69,7 @@ class MainMenuScene(Scene):
 
     # Check the buttons and switch to corresponding scenes when clicked
     def update(self, event):
-        for btn in (self.play_btn, self.stats_btn, self.about_btn, self.back_btn, self.settings_btn):
+        for btn in (self.play_btn, self.stats_btn, self.about_btn, self.back_btn, self.close_btn, self.settings_btn):
             btn.update(event)
 
         # Goto single player pen select scene
@@ -76,8 +84,13 @@ class MainMenuScene(Scene):
         elif self.about_btn.clicked:
             Scene.push_scene(12)
 
+        # Go to the settings pane
         elif self.settings_btn.clicked:
             Scene.push_scene(13)
+
+        # Close the app
+        elif self.close_btn.clicked:
+            pygame.event.post(pygame.event.Event(pygame.QUIT))
 
         # Go back to account select scene
         elif self.back_btn.clicked:
@@ -90,5 +103,5 @@ class MainMenuScene(Scene):
 
         self.title.draw(screen)
 
-        for btn in (self.play_btn, self.stats_btn, self.about_btn, self.back_btn, self.settings_btn):
+        for btn in (self.play_btn, self.stats_btn, self.about_btn, self.back_btn, self.close_btn, self.settings_btn):
             btn.draw(screen)
