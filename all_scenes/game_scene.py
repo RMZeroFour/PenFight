@@ -41,7 +41,7 @@ class GameScene(Scene):
 
     def start(self, screen):
         if not self.already_loaded:
-            AIData.load_all_ais()
+            AIData.load_all_ais(Resources.get("all_ai"))
 
             self.width, self.height = screen.get_width(), screen.get_height()
 

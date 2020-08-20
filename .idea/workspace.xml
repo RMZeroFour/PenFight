@@ -24,7 +24,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d52190be-cebe-46f3-adfa-fefdbccbe1d9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/all_scenes/game_scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/all_scenes/game_scene.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/all_scenes/penselect_scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/all_scenes/penselect_scene.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_code/ai_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_code/ai_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_code/neural_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_code/neural_net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_code/pen_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_code/pen_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,15 +62,15 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\Python\PenFight\assets" />
-      <recent name="D:\Ritam\Projects\Python\PenFight\all_scenes" />
-      <recent name="D:\Ritam\Projects\Python\PenFight\assets" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Projects\Python\PenFight\assets" />
       <recent name="D:\Ritam\Projects\Python\PenFight\assets" />
       <recent name="D:\Ritam\Projects\Python\PenFight" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Projects\Python\PenFight\assets" />
+      <recent name="D:\Ritam\Projects\Python\PenFight\all_scenes" />
+      <recent name="D:\Ritam\Projects\Python\PenFight\assets" />
     </key>
   </component>
   <component name="RunManager" selected="Python.trainer">
@@ -133,9 +138,9 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.enemyselect_scene" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.trainer" />
-      <item itemvalue="Python.enemyselect_scene" />
     </list>
     <recent_temporary>
       <list>
@@ -186,54 +191,54 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="374" y="23" key="CommitChangelistDialog2/0.0.1440.860@0.0.1440.860" timestamp="1597063243051" />
-    <state width="931" height="395" key="DebuggerActiveHint" timestamp="1597609566280">
+    <state width="1001" height="395" key="DebuggerActiveHint" timestamp="1597852434688">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="931" height="395" key="DebuggerActiveHint/0.0.1366.728@0.0.1366.728" timestamp="1597609566280" />
+    <state width="1001" height="395" key="DebuggerActiveHint/0.0.1366.728@0.0.1366.728" timestamp="1597852434688" />
     <state width="981" height="466" key="DebuggerActiveHint/0.0.1440.860@0.0.1440.860" timestamp="1597263924207" />
     <state x="474" y="156" key="FileChooserDialogImpl" timestamp="1597487609980">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="474" y="156" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1597487609980" />
-    <state width="1345" height="179" key="GridCell.Tab.0.bottom" timestamp="1597823384391">
+    <state width="1345" height="179" key="GridCell.Tab.0.bottom" timestamp="1597853007842">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1597823384391" />
+    <state width="1345" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1597853007842" />
     <state width="1418" height="270" key="GridCell.Tab.0.bottom/0.0.1440.860@0.0.1440.860" timestamp="1597265459211" />
-    <state width="1345" height="179" key="GridCell.Tab.0.center" timestamp="1597823384391">
+    <state width="1345" height="179" key="GridCell.Tab.0.center" timestamp="1597853007842">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1597823384391" />
+    <state width="1345" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1597853007842" />
     <state width="1418" height="270" key="GridCell.Tab.0.center/0.0.1440.860@0.0.1440.860" timestamp="1597265459209" />
-    <state width="1345" height="179" key="GridCell.Tab.0.left" timestamp="1597823384391">
+    <state width="1345" height="179" key="GridCell.Tab.0.left" timestamp="1597853007842">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1597823384391" />
+    <state width="1345" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1597853007842" />
     <state width="1418" height="270" key="GridCell.Tab.0.left/0.0.1440.860@0.0.1440.860" timestamp="1597265459208" />
-    <state width="1345" height="179" key="GridCell.Tab.0.right" timestamp="1597823384391">
+    <state width="1345" height="179" key="GridCell.Tab.0.right" timestamp="1597853007842">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1597823384391" />
+    <state width="1345" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1597853007842" />
     <state width="1418" height="270" key="GridCell.Tab.0.right/0.0.1440.860@0.0.1440.860" timestamp="1597265459209" />
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom" timestamp="1597822672197">
+    <state width="1345" height="223" key="GridCell.Tab.1.bottom" timestamp="1597853007837">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1597822672197" />
+    <state width="1345" height="223" key="GridCell.Tab.1.bottom/0.0.1366.728@0.0.1366.728" timestamp="1597853007837" />
     <state width="1418" height="270" key="GridCell.Tab.1.bottom/0.0.1440.860@0.0.1440.860" timestamp="1597265459234" />
-    <state width="1345" height="223" key="GridCell.Tab.1.center" timestamp="1597822672197">
+    <state width="1345" height="223" key="GridCell.Tab.1.center" timestamp="1597853007837">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1597822672197" />
+    <state width="1345" height="223" key="GridCell.Tab.1.center/0.0.1366.728@0.0.1366.728" timestamp="1597853007837" />
     <state width="1418" height="270" key="GridCell.Tab.1.center/0.0.1440.860@0.0.1440.860" timestamp="1597265459211" />
-    <state width="1345" height="223" key="GridCell.Tab.1.left" timestamp="1597822672197">
+    <state width="1345" height="223" key="GridCell.Tab.1.left" timestamp="1597853007837">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1597822672197" />
+    <state width="1345" height="223" key="GridCell.Tab.1.left/0.0.1366.728@0.0.1366.728" timestamp="1597853007837" />
     <state width="1418" height="270" key="GridCell.Tab.1.left/0.0.1440.860@0.0.1440.860" timestamp="1597265459211" />
-    <state width="1345" height="223" key="GridCell.Tab.1.right" timestamp="1597822672197">
+    <state width="1345" height="223" key="GridCell.Tab.1.right" timestamp="1597853007837">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1345" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1597822672197" />
+    <state width="1345" height="223" key="GridCell.Tab.1.right/0.0.1366.728@0.0.1366.728" timestamp="1597853007837" />
     <state width="1418" height="270" key="GridCell.Tab.1.right/0.0.1440.860@0.0.1440.860" timestamp="1597265459234" />
     <state x="508" y="66" key="RollbackChangesDialog" timestamp="1597822451803">
       <screen x="0" y="0" width="1366" height="728" />
@@ -264,10 +269,10 @@
       <screen x="0" y="0" width="1440" height="860" />
     </state>
     <state x="461" y="72" key="refactoring.ChangeSignatureDialog/0.0.1440.860@0.0.1440.860" timestamp="1591201369819" />
-    <state x="363" y="153" width="672" height="574" key="search.everywhere.popup" timestamp="1597819592035">
+    <state x="363" y="153" width="672" height="574" key="search.everywhere.popup" timestamp="1597852704862">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="363" y="153" width="672" height="574" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1597819592035" />
+    <state x="363" y="153" width="672" height="574" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1597852704862" />
     <state x="383" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1440.860@0.0.1440.860" timestamp="1597264395156" />
   </component>
 </project>
