@@ -19,8 +19,7 @@ class AIData:
         self.neural_net = None
 
     @staticmethod
-    def load_all_ais():
-        json_data = Resources.get("all_ai")
+    def load_all_ais(json_data):
         dicts = json.loads(json_data)
 
         ai_list = [AIData.dict_to_ai(d) for d in dicts]
@@ -34,3 +33,11 @@ class AIData:
         p.difficulty = AIDifficulty(d["difficulty"])
         p.neural_net = NeuralNetwork.from_array(d["neural_net"])
         return p
+
+    @staticmethod
+    def ai_to_dict(ai):
+        return {
+            "pen_name": ai.pen_name,
+            "difficulty": ai.difficulty.value,
+            "neural_net": NeuralNetwork.to_array(ai.neural_net)
+        }

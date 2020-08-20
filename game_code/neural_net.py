@@ -16,6 +16,15 @@ class NeuralNetwork:
         bo = np.random.random((outputs, 1)) * 2.0 - 1.0
         return NeuralNetwork(wih, bh, who, bo)
 
+    @staticmethod
+    def clone(nn):
+        wih = nn.weights_ih.copy()
+        bh = nn.bias_h.copy()
+        who = nn.weights_ho.copy()
+        bo = nn.bias_o.copy()
+        return NeuralNetwork(wih, bh, who, bo)
+
+
     def predict(self, input_values):
         input_mat = np.array(input_values).reshape(len(input_values), 1)
         hidden_mat = self.activation(np.dot(self.weights_ih, input_mat) + self.bias_h)

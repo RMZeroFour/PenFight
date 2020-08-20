@@ -30,7 +30,7 @@ class PenSelectScene(Scene):
 
     def start(self, screen):
         if not self.already_loaded:
-            PenData.load_all_pens()
+            PenData.load_all_pens(Resources.get("all_pens"))
 
             width = screen.get_width()
             height = screen.get_height()

@@ -21,8 +21,7 @@ class PenData:
         self.mesh_points = []
 
     @staticmethod
-    def load_all_pens():
-        json_data = Resources.get("all_pens")
+    def load_all_pens(json_data):
         dicts = json.loads(json_data)
         PenData.all_pens = [PenData.dict_to_pen(d) for d in dicts]
 
