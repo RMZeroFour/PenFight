@@ -24,16 +24,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d52190be-cebe-46f3-adfa-fefdbccbe1d9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all_scenes/enemyselect_scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/all_scenes/enemyselect_scene.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all_scenes/game_scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/all_scenes/game_scene.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/all_scenes/loading_scene.py" beforeDir="false" afterPath="$PROJECT_DIR$/all_scenes/loading_scene.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/ai.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/pens.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/pens.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_code/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_code/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_code/ai_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_code/ai_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game_code/neural_net.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_code/neural_net.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/trainer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +53,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
     <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -252,10 +242,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="508" y="66" key="RollbackChangesDialog/0.0.1366.728@0.0.1366.728" timestamp="1598108384022" />
-    <state x="191" y="18" key="SettingsEditor" timestamp="1597487846348">
+    <state x="191" y="18" key="SettingsEditor" timestamp="1598196986879">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="191" y="18" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1597487846348" />
+    <state x="191" y="18" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1598196986879" />
     <state x="201" y="60" key="SettingsEditor/0.0.1440.860@0.0.1440.860" timestamp="1596368480567" />
     <state width="498" height="398" key="SwitcherDM" timestamp="1598115740889">
       <screen x="0" y="0" width="1366" height="728" />
