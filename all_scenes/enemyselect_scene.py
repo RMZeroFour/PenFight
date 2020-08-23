@@ -1,11 +1,9 @@
 import random
-
 import pygame
 from scene import Scene
 from gui import (Label, Button, ToggleButton, Image, Options)
 from resources import Resources
-from account import Account
-from game_code import PenData
+from game_code import PenData, AIData
 from game_code.ai_data import AIDifficulty
 
 
@@ -32,7 +30,7 @@ class EnemySelectScene(Scene):
 
     def start(self, screen):
         if not self.already_loaded:
-            PenData.load_all_pens()
+            AIData.load_all_ais()
 
             width = screen.get_width()
             height = screen.get_height()

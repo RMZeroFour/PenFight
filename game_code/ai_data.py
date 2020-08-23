@@ -1,7 +1,5 @@
-import json
-from resources import Resources
+import pickle
 from enum import Enum
-from game_code import NeuralNetwork
 
 
 class AIDifficulty(Enum):
@@ -13,31 +11,13 @@ class AIDifficulty(Enum):
 class AIData:
     all_ai = {}
 
-    def __init__(self):
-        self.pen_name = ""
-        self.difficulty = -1
-        self.neural_net = None
+    def __init__(self, name="", diff=-1, neural_net=None):
+        self.pen_name = name
+        self.difficulty = diff
+        self.neural_net = neural_net
 
     @staticmethod
-    def load_all_ais(json_data):
-        dicts = json.loads(json_data)
+    def load_all_ais():
+        with open("assets/ai.dat", 'rb') as data_file:
+            AIData.all_ai = pickle.load(data_file)
 
-        ai_list = [AIData.dict_to_ai(d) for d in dicts]
-        for ai in ai_list:
-            AIData.all_ai[(ai.pen_name, ai.difficulty)] = ai
-
-    @staticmethod
-    def dict_to_ai(d):
-        p = AIData()
-        p.pen_name = d["pen_name"]
-        p.difficulty = AIDifficulty(d["difficulty"])
-        p.neural_net = NeuralNetwork.from_array(d["neural_net"])
-        return p
-
-    @staticmethod
-    def ai_to_dict(ai):
-        return {
-            "pen_name": ai.pen_name,
-            "difficulty": ai.difficulty.value,
-            "neural_net": NeuralNetwork.to_array(ai.neural_net)
-        }
