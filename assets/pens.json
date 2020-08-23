@@ -88,7 +88,7 @@
         "name": "Mechanical Pencil",
         "density": 1.0,
         "restitution": 0.90,
-        "friction": [100.0, 100.0],
+        "friction": [100.0, 125.0],
         "image_file": "mech_pencil",
         "cost": 600,
         "description": [

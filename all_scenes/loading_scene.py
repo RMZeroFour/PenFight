@@ -65,8 +65,6 @@ class LoadingScene(Scene):
         Resources.add("mech_pencil", pygame.image.load("assets/mech_pencil.png"))
         Resources.add("marker", pygame.image.load("assets/marker.png"))
 
-        Resources.add("all_ai", Resources.load_text("assets/ai.json"))
-
         self.loaded = True
 
     def update(self, event):

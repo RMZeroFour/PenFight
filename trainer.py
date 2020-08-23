@@ -1,41 +1,31 @@
-import json
-import numpy
-import io
 from game_code import AIData, PenData, NeuralNetwork
 from game_code.ai_data import AIDifficulty
+import pickle
 
 
-def load_text(filename):
-    with open(filename, "r") as file:
-        return file.read()
-
-
-def save_text(filename, data):
-    with open(filename, "w") as file:
-        return file.write(data)
+training_generations = {
+    AIDifficulty.EASY: 1000,
+    AIDifficulty.NORMAL: 2000,
+    AIDifficulty.HARD: 3000,
+}
 
 
 def main():
-    PenData.load_all_pens(load_text("assets/pens.json"))
+    with open("assets/pens.json", 'r') as data_file:
+        PenData.load_all_pens(data_file.read())
+
     pen_diff_pairs = [(pen_data, diff) for diff in list(AIDifficulty) for pen_data in PenData.all_pens]
 
-    template = NeuralNetwork.create(15, 8, 2)
-    template = NeuralNetwork(numpy.zeros_like(template.weights_ih),
-                             numpy.zeros_like(template.bias_h),
-                             numpy.zeros_like(template.weights_ho),
-                             numpy.zeros_like(template.bias_o))
+    all_ai_data = {(pen_data.name, diff): AIData(pen_data.name, diff, train(pen_data, diff))
+                   for (pen_data, diff) in pen_diff_pairs}
 
-    all_ai_data = []
-    for (pen_data, diff) in pen_diff_pairs:
-        ai_data = AIData()
-        ai_data.pen_name = pen_data.name
-        ai_data.difficulty = diff
-        ai_data.neural_net = NeuralNetwork.clone(template)
-        all_ai_data.append(ai_data)
+    with open("assets/ai.dat", 'wb') as save_file:
+        pickle.dump(all_ai_data, save_file)
 
-    ai_json = json.dumps([AIData.ai_to_dict(ai_data) for ai_data in all_ai_data])
 
-    print("This is th PenFight trainer!")
+def train(pen, diff):
+    generations = training_generations[diff]
+    return NeuralNetwork.create(15, 8, 3)
 
 
 main()

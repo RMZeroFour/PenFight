@@ -3,7 +3,7 @@ from scene import Scene
 from all_scenes.gameover_scene import GameOverScene
 from gui import (Label, Options)
 from resources import Resources
-from game_code import (Table, Pen, PenData, PenSprite, GameResult, NeuralNetwork, AIData)
+from game_code import (Table, Pen, PenData, PenSprite, GameResult, AIData, Perimeter)
 from game_code.b2d import *
 from game_code.units import *
 import math
@@ -14,7 +14,7 @@ class GameScene(Scene):
     GAME_OVER_EVENT = pygame.USEREVENT + 1
     game_over = False
 
-    ENEMY_MOVE_DELAY = 300
+    ENEMY_MOVE_DELAY = 100
 
     world = None
     table = None
@@ -41,7 +41,7 @@ class GameScene(Scene):
 
     def start(self, screen):
         if not self.already_loaded:
-            AIData.load_all_ais(Resources.get("all_ai"))
+            AIData.load_all_ais()
 
             self.width, self.height = screen.get_width(), screen.get_height()
 
@@ -104,7 +104,7 @@ class GameScene(Scene):
 
                 drag_start = Vec2(screen_to_world((self.drag_start_pos[0], self.height - self.drag_start_pos[1])))
                 drag_end = Vec2(screen_to_world((self.drag_end_pos[0], self.height - self.drag_end_pos[1])))
-                hit_point = self.cast_ray(self.players[0], drag_start, drag_end)
+                hit_point = GameScene.cast_ray(self.players[0], drag_start, drag_end)
                 if hit_point is not None:
                     force = (hit_point - drag_start) * 25
                     self.players[0].apply_force(hit_point, force)
@@ -118,19 +118,24 @@ class GameScene(Scene):
             GameOverScene.result = GameResult(self.victory_state)
             Scene.push_scene(10)
 
-    def cast_ray(self, player, start, end):
-        input = RayCastInput(p1=start, p2=end, maxFraction=1)
+    @staticmethod
+    def cast_ray(player, start, end):
+        input = RayCastInput(p1=start, p2=end, maxFraction=1.1)
         output = RayCastOutput()
         if player.body.fixtures[0].RayCast(output, input, 0):
             hit_point = start + (end - start) * output.fraction
             return hit_point
         return None
 
-    def evaluate_ai(self, neural_net):
+    def evaluate_ai(self, player, neural_net):
         outputs = neural_net.predict([random.random() for i in range(0, 15)])
+
         angle = outputs[0] * 2 * math.pi
-        offset = outputs[1] * 25
-        return Vec2(math.cos(angle), math.sin(angle)) * offset
+        magnitude = outputs[1] * 25
+        force = player.body.position + Vec2(math.cos(angle), math.sin(angle)) * magnitude
+
+        target = player.body.transform * Perimeter.get_point(player.shape, outputs[2])
+        return force, target
 
     def draw(self, screen):
         screen.fill((0, 51, 102))
@@ -152,7 +157,7 @@ class GameScene(Scene):
             drag_start = Vec2(screen_to_world((self.drag_start_pos[0], self.height - self.drag_start_pos[1])))
             drag_end = Vec2(screen_to_world((self.drag_end_pos[0], self.height - self.drag_end_pos[1])))
 
-            hit_point = self.cast_ray(self.players[0], drag_start, drag_end)
+            hit_point = GameScene.cast_ray(self.players[0], drag_start, drag_end)
             if hit_point is not None:
                 end = world_to_screen(hit_point)
                 end = (end[0], self.height - end[1])
@@ -167,13 +172,17 @@ class GameScene(Scene):
             if self.ai_counter == 0:
                 self.ai_counter = GameScene.ENEMY_MOVE_DELAY
 
-                force_origin = self.evaluate_ai(self.enemy_ai.neural_net) + self.players[1].body.position
-                force_end = self.players[1].body.position
-                hit_point = self.cast_ray(self.players[1], force_origin, force_end)
-                if hit_point is not None:
-                    force = (hit_point - force_origin) * 25
-                    self.players[1].apply_force(hit_point, force)
-                    self.move_made = True
+                origin, target = self.evaluate_ai(self.players[1], self.enemy_ai.neural_net)
+
+                while self.players[1].shape.TestPoint(self.players[1].body.transform, origin):
+                    origin, target = self.evaluate_ai(self.players[1], self.enemy_ai.neural_net)
+
+                hit_point = GameScene.cast_ray(self.players[1], origin, target)
+
+                force = (hit_point - origin) * 25
+                self.players[1].apply_force(hit_point, force)
+                self.move_made = True
+
             else:
                 self.ai_counter -= 1
 
@@ -185,7 +194,8 @@ class GameScene(Scene):
         pygame.draw.line(surface, color, start, end, line_size)
         rotation = math.atan2(start[1] - end[1], end[0] - start[0]) + math.pi / 2
         pygame.draw.polygon(surface, color,
-                            [(end[0] + arrow_size * math.sin(rotation), end[1] + arrow_size * math.cos(rotation)),
+                            [(end[0] + arrow_size * math.sin(rotation),
+                              end[1] + arrow_size * math.cos(rotation)),
                              (end[0] + arrow_size * math.sin(rotation - 2.0944),
                               end[1] + arrow_size * math.cos(rotation - 2.0944)),
                              (end[0] + arrow_size * math.sin(rotation + 2.0944),
