@@ -4,7 +4,6 @@ from game_code.pen_sprite import PenSprite
 from game_code.table import Table
 from game_code.game_result import GameResult
 from game_code.perimeter import Perimeter
-from game_code.neural_net import NeuralNetwork
-from game_code.ai_data import AIData
+import game_code.strategy as strategy
 import game_code.b2d as b2d
 import game_code.units as units
