@@ -8,7 +8,7 @@ class PenData:
     current_pen = None
 
     current_enemy_pen = None
-    current_enemy_difficulty = -1
+    current_enemy_strategy = -1
 
     def __init__(self):
         self.name = ""
