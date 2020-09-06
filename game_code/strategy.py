@@ -1,35 +1,37 @@
-import random
+import math, random
 from game_code import Perimeter
 from game_code.b2d import Vec2
 
 
-class Strategy:
-    def next_move(self, player, other_player, table, world):
-        pass
+def offensive_strategy(player, other_player, table):
+    point = other_player.body.position
+    target = Vec2(point[0] + random.random() * 2 - 1, point[1] + random.random() * 2 - 1)
+    target = target * 0.8 + player.body.position * 0.2
+    hit_point = player.body.transform * Perimeter.get_point(player.shape, random.random())
 
-
-class Offensive(Strategy):
-    def next_move(self, player, other_player, table, world):
-        return 0
-
-
-class Defensive(Strategy):
-    def next_move(self, player, other_player, table, world):
+    while (target - player.body.position).dot(hit_point - player.body.position) > 0.0:
         hit_point = player.body.transform * Perimeter.get_point(player.shape, random.random())
-        target = Vec2(table.center[0] + random.random() * 5 - 2.5, table.center[1] + random.random() * 5 - 2.5)
-        return target, hit_point
+
+    return target, hit_point
 
 
-class Endurable(Strategy):
-    def next_move(self, player, other_player, table, world):
-        return 0
+def defensive_strategy(player, other_player, table):
+    point = table.center
+    target = Vec2(point[0] + random.random() * 2 - 1, point[1] + random.random() * 2 - 1)
+    target = target * 0.8 + player.body.position * 0.2
+    hit_point = player.body.transform * Perimeter.get_point(player.shape, random.random())
+
+    while (target - player.body.position).dot(hit_point - player.body.position) > 0.0:
+        hit_point = player.body.transform * Perimeter.get_point(player.shape, random.random())
+
+    return target, hit_point
 
 
-class Hybrid(Strategy):
-    def __init__(self):
-        self.offensive = Offensive()
-        self.defensive = Defensive()
-        self.endurable = Endurable()
+def hybrid_strategy(player, other_player, table):
+    width, height = random.random() * 5 + 27.5, random.random() * 5 + 12.5
 
-    def next_move(self, player, other_player, table, word):
-        return 0
+    if ((player.body.position.x - table.center[0]) ** 2) / (width ** 2) + \
+       ((player.body.position.y - table.center[1]) ** 2) / (height ** 2) <= 1:
+        return offensive_strategy(player, other_player, table)
+    else:
+        return defensive_strategy(player, other_player, table)

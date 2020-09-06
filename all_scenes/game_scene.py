@@ -6,7 +6,7 @@ from resources import Resources
 from game_code import (Table, Pen, PenData, PenSprite, GameResult)
 from game_code.b2d import *
 from game_code.units import *
-import math
+import math, random
 
 
 class GameScene(Scene):
@@ -19,14 +19,12 @@ class GameScene(Scene):
     table = None
     players = None
 
-    ai_strategy = None
-    ai_counter = 0
-
     current_player_index = -1
     victory_state = -1
     move_made = True
 
     turn_count = 0
+    ai_counter = 0
 
     turn_text = None
     victory_text = None
@@ -73,9 +71,7 @@ class GameScene(Scene):
         self.players = [Pen(PenData.current_pen, (world_center[0] - 35, world_center[1]), self.table.body, self.world),
                         Pen(PenData.current_enemy_pen, (world_center[0] + 35, world_center[1]), self.table.body, self.world)]
 
-        self.ai_strategy = PenData.current_enemy_strategy
         self.ai_counter = GameScene.ENEMY_MOVE_DELAY
-
         self.turn_count = 0
         self.move_made = True
 
@@ -103,7 +99,8 @@ class GameScene(Scene):
                 drag_end = Vec2(screen_to_world((self.drag_end_pos[0], self.height - self.drag_end_pos[1])))
                 hit_point = GameScene.cast_ray(self.players[0].fixture, drag_start, drag_end)
                 if hit_point is not None:
-                    force = (hit_point - drag_start) * 20
+                    randomness = random.random() * 5 - 2.5
+                    force = (hit_point - drag_start) * (20 + randomness)
                     self.players[0].apply_force(hit_point, force)
                     self.move_made = True
 
@@ -150,8 +147,9 @@ class GameScene(Scene):
             if self.ai_counter == 0:
                 self.ai_counter = GameScene.ENEMY_MOVE_DELAY
 
-                target, hit_point = self.ai_strategy.next_move(self.players[1], self.players[0], self.table, self.world)
-                force = (target - hit_point) * 20
+                target, hit_point = PenData.current_enemy_strategy(self.players[1], self.players[0], self.table)
+                randomness = random.random() * 10 - 5
+                force = (target - hit_point) * (20 + randomness)
                 self.players[1].apply_force(hit_point, force)
                 self.move_made = True
 
@@ -160,27 +158,6 @@ class GameScene(Scene):
 
         self.world.Step(1.0 / 30.0, 20, 20)
         self.world.ClearForces()
-
-    @staticmethod
-    def cast_ray(fixture, start, end):
-        input = RayCastInput(p1=start, p2=end, maxFraction=1.1)
-        output = RayCastOutput()
-        if fixture.RayCast(output, input, 0):
-            hit_point = start + (end - start) * output.fraction
-            return hit_point
-        return None
-
-    @staticmethod
-    def draw_arrow(surface, color, start, end, line_size=3, arrow_size=7):
-        pygame.draw.line(surface, color, start, end, line_size)
-        rotation = math.atan2(start[1] - end[1], end[0] - start[0]) + math.pi / 2
-        pygame.draw.polygon(surface, color,
-                            [(end[0] + arrow_size * math.sin(rotation),
-                              end[1] + arrow_size * math.cos(rotation)),
-                             (end[0] + arrow_size * math.sin(rotation - 2.0944),
-                              end[1] + arrow_size * math.cos(rotation - 2.0944)),
-                             (end[0] + arrow_size * math.sin(rotation + 2.0944),
-                              end[1] + arrow_size * math.cos(rotation + 2.0944))])
 
     def next_turn(self):
         self.move_made = False
@@ -197,8 +174,8 @@ class GameScene(Scene):
             if player_outside and comp_outside:
                 self.set_winner(GameResult.VictoryState.TIE)
 
-            elif (GameScene.velocity_near_zero(self.players[0]) or player_outside) \
-                 and (GameScene.velocity_near_zero(self.players[1]) or comp_outside):
+            elif (GameScene.velocity_near_zero(self.players[0]) or player_outside) and \
+                 (GameScene.velocity_near_zero(self.players[1]) or comp_outside):
 
                 if player_outside:
                     self.set_winner(GameResult.VictoryState.LOSE)
@@ -221,28 +198,37 @@ class GameScene(Scene):
         pygame.time.set_timer(GameScene.GAME_OVER_EVENT, 2000)
 
     def draw_player(self, screen, player):
-        position = player.get_position()
+        position = player.body.position
         position = world_to_screen(position)
         position = (position[0], self.height - position[1])
 
-        rotation = player.get_rotation()
+        rotation = player.body.angle
         rotation = math.degrees(rotation)
 
         sprite = self.player_sprites[player]
         sprite.set_transform(position, rotation)
         sprite.draw(screen)
 
-        pygame.draw.circle(screen, (0, 255, 0), (int(position[0]), int(position[1])), 3)
-        if self.current_player_index == self.players.index(player):
-            pygame.draw.circle(screen, (255, 0, 0), (int(position[0]), int(position[1])), 7, 1)
+    @staticmethod
+    def cast_ray(fixture, start, end):
+        input = RayCastInput(p1=start, p2=end, maxFraction=1.1)
+        output = RayCastOutput()
+        if fixture.RayCast(output, input, 0):
+            hit_point = start + (end - start) * output.fraction
+            return hit_point
+        return None
 
-        # vertices = [world_to_screen(v) for v in player.get_vertices()]
-        # vertices = [(v[0], screen.get_height() - v[1]) for v in vertices]
-        # pygame.draw.polygon(screen, (0, 255, 0), vertices)
-        # for v in vertices:
-        #     pygame.draw.circle(screen, (255, 0, 0), (int(v[0]), int(v[1])), 3)
-        # if self.current_player_index == self.players.index(player):
-        #     pygame.draw.polygon(screen, (0, 0, 0), vertices, 2)
+    @staticmethod
+    def draw_arrow(surface, color, start, end, line_size=3, arrow_size=7):
+        pygame.draw.line(surface, color, start, end, line_size)
+        rotation = math.atan2(start[1] - end[1], end[0] - start[0]) + math.pi / 2
+        pygame.draw.polygon(surface, color,
+                            [(end[0] + arrow_size * math.sin(rotation),
+                              end[1] + arrow_size * math.cos(rotation)),
+                             (end[0] + arrow_size * math.sin(rotation - 2.0944),
+                              end[1] + arrow_size * math.cos(rotation - 2.0944)),
+                             (end[0] + arrow_size * math.sin(rotation + 2.0944),
+                              end[1] + arrow_size * math.cos(rotation + 2.0944))])
 
     @staticmethod
     def velocity_near_zero(player, linear_threshold=0.2, angular_threshold=0.5):

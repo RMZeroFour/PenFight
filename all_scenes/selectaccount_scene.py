@@ -119,6 +119,8 @@ class SelectAccountScene(Scene):
 
             self.already_loaded = True
 
+        Account.current_account = None
+
         self.btn_index = 0
         self.reposition_buttons()
 

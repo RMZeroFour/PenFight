@@ -3,7 +3,7 @@
         "name": "Pencil",
         "density": 0.75,
         "restitution": 0.95,
-        "friction": [125.0, 250.0],
+        "friction": [100.0, 250.0],
         "image_file": "pencil",
         "cost": 100,
         "description": [
@@ -23,7 +23,7 @@
         "name": "Ball Pen",
         "density": 0.9,
         "restitution": 0.90,
-        "friction": [40.0, 150.0],
+        "friction": [30.0, 150.0],
         "image_file": "ball_pen",
         "cost": 250,
         "description": [
@@ -42,9 +42,9 @@
     },
     {
         "name": "Blue Gel Pen",
-        "density": 1.1,
+        "density": 1.0,
         "restitution": 0.97,
-        "friction": [75.0, 125.0],
+        "friction": [50.0, 120.0],
         "image_file": "blue_gel_pen",
         "cost": 400,
         "description": [
