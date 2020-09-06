@@ -18,12 +18,3 @@ class Pen:
 
     def apply_force(self, point, force):
         self.body.ApplyLinearImpulse(force, point, True)
-
-    def get_position(self):
-        return self.body.position
-
-    def get_rotation(self):
-        return self.body.angle
-
-    def get_vertices(self):
-        return [(self.body.transform * v) for v in self.body.fixtures[0].shape.vertices]
